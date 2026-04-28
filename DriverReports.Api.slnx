@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="DriverReports.Api/DriverReports.Api.csproj" />
+  <Project Path="DriverReports.Application/DriverReports.Application.csproj" />
+  <Project Path="DriverReports.Domain/DriverReports.Domain.csproj" />
+</Solution>

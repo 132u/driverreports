@@ -1,0 +1,16 @@
+# .NET
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.sln.docstates
+
+# VS Code
+.vscode/
+
+# Node / Next.js
+node_modules/
+.next/
+dist/
+.env
