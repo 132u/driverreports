@@ -1,10 +1,7 @@
-﻿using DriverReports.Application.DTOs;
+﻿using DriverReports.Application.DTOs.Reports;
 using DriverReports.Application.Interfaces;
 using DriverReports.Application.Services.Interfaces;
 using DriverReports.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DriverReports.Application.Services
 {
@@ -18,7 +15,7 @@ namespace DriverReports.Application.Services
             _reportRepository = reportRepository;
         }
 
-        public async Task<Guid> CreateReportAsync(CreateReportRequest request, CancellationToken cancellationToken)
+        public async Task<Guid> CreateReportAsync(CreateReportDto request, CancellationToken cancellationToken)
         {
             var user = _userRepository.GetByIdAsync(request.UserId);
             if (user == null) {

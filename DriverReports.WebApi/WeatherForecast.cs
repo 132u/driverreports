@@ -1,4 +1,4 @@
-namespace DriverReports.Api
+namespace DriverReports.WebApi
 {
     public class WeatherForecast
     {

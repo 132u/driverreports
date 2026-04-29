@@ -1,5 +1,6 @@
 <Solution>
-  <Project Path="DriverReports.Api/DriverReports.Api.csproj" />
+  <Project Path="DriverReport.Infrastructure/DriverReport.Infrastructure.csproj" />
   <Project Path="DriverReports.Application/DriverReports.Application.csproj" />
   <Project Path="DriverReports.Domain/DriverReports.Domain.csproj" />
+  <Project Path="DriverReports.WebApi/DriverReports.WebApi.csproj" Id="0948e9a7-96a1-4cf7-a69f-8bfdefb59e06" />
 </Solution>
