@@ -1,4 +1,7 @@
-﻿namespace DriverReports.Domain.Entities
+﻿using System.Data;
+using System.Xml.Linq;
+
+namespace DriverReports.Domain.Entities
 {
     [Flags]
     public enum UserRole
@@ -25,15 +28,6 @@
         public string PasswordHash { get; private set; }
         public UserRole Roles { get; private set; }
 
-        public User(string name, string email, string passwordHash, UserRole roles)
-        {
-            Id = Guid.NewGuid();
-            Name = name;
-            Email = email;
-            PasswordHash = passwordHash;
-            Roles = roles;
-        }
-
         public void AddRole(UserRole role)
         {
             Roles |= role;
@@ -47,6 +41,23 @@
         public bool HasRole(UserRole role)
         {
             return (Roles & role) == role;
+        }
+
+        public static (User user, string Error) Create(Guid id, string name, string email, string passwordHash, UserRole role)
+        {
+            var error = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(name))
+                error = "Name is required";
+
+            if (string.IsNullOrWhiteSpace(email))
+                error = "Email is required";
+            
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                error = "Password is required";
+            
+            var user = new User(id, name, email, passwordHash, role);
+            return (user, error);
         }
     }
 }

@@ -9,20 +9,24 @@ namespace DriverReports.Application.Services
     {
         private readonly IReportRepository _reportRepository;
         private readonly IUserRepository _userRepository;
-        public ReportsService(IUserRepository userRepository, IReportRepository reportRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public ReportsService(IUserRepository userRepository, IReportRepository reportRepository, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _reportRepository = reportRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Guid> CreateReportAsync(CreateReportDto request, CancellationToken cancellationToken)
         {
-            var user = _userRepository.GetByIdAsync(request.UserId);
+            var user = await _userRepository.GetByIdAsync(request.UserId);
             if (user == null) {
                 throw new Exception("no user");
             }
             var (report , error)= Report.Create(request.UserId, request.Date, request.Price, request.Description, request.PaymentType);
             await _reportRepository.AddAsync(report);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
             return report.Id;
         }
     }

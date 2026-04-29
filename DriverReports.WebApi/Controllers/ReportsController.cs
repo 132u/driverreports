@@ -18,8 +18,8 @@ namespace DriverReports.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateReportResponce>> Create(CreateReportRequest request, CancellationToken token)
         {
-            var createRrportDto = new CreateReportDto(request.UserId, request.Date, request.Price, request.Description, request.PaymentType);
-            var id = await _reportsService.CreateReportAsync(createRrportDto, token);
+            var createReportDto = new CreateReportDto(request.UserId, request.Date, request.Price, request.Description, request.PaymentType);
+            var id = await _reportsService.CreateReportAsync(createReportDto, token);
             return Ok(id);
         }
     }
