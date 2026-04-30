@@ -15,7 +15,13 @@ namespace DriverReport.Infrastructure.Persistence.Configurations
             builder.Property(b => b.Description)
                 .IsRequired();
 
-            builder.Property(b => b.Date)
+            builder.Property(b => b.CreatedDate)
+                .IsRequired();
+
+            builder.Property(b => b.UpdatedDate)
+                .IsRequired();
+
+            builder.Property(b => b.ReportDate)
                 .IsRequired();
 
             builder.Property(b => b.Price)

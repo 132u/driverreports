@@ -47,7 +47,9 @@ namespace DriverReport.Infrastructure.Repositories
             await _appDbContext.Reports.Where(r=>r.Id==report.Id)
                 .ExecuteUpdateAsync(s =>
                    s.SetProperty(p=>p.DriverId , report.DriverId)
-                    .SetProperty(p=>p.Date, report.Date)
+                    .SetProperty(p=>p.CreatedDate, report.CreatedDate)
+                    .SetProperty(p=>p.UpdatedDate, report.UpdatedDate)
+                    .SetProperty(p=>p.ReportDate, report.ReportDate)
                     .SetProperty(p => p.Price, report.Price)
                     .SetProperty(p => p.Description, report.Description)
                     .SetProperty(p => p.PaymentType, report.PaymentType));

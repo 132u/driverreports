@@ -22,7 +22,10 @@ namespace DriverReports.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateReportResponce>> Create(CreateReportRequest request, CancellationToken token)
         {
-            var createReportDto = new CreateReportDto(request.UserId, request.Date, request.Price, request.Description, request.PaymentType);
+            if (!DateTime.TryParse(request.ReportDate, out var date))
+                return BadRequest("Invalid date format");
+
+            var createReportDto = new CreateReportDto(request.UserId, date, request.Price, request.Description, request.PaymentType);
             var id = await _reportsService.CreateReportAsync(createReportDto, token);
             return Ok(id);
         }
