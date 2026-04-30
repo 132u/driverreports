@@ -22,5 +22,12 @@ namespace DriverReports.WebApi.Controllers
 
             return Ok(r);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest request, CancellationToken token)
+        {
+            var jwtToken = await _authService.Login(request, token);
+            return Ok(new { jwtToken });
+        }
     }
 }
