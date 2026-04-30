@@ -10,7 +10,7 @@ namespace DriverReports.WebApi.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ReportsController : ControllerBase
     {
         private readonly IReportsService _reportsService;
@@ -27,8 +27,8 @@ namespace DriverReports.WebApi.Controllers
             return Ok(id);
         }
 
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllReports(CancellationToken token)
+        [HttpGet("reports")]
+        public async Task<IActionResult> GetReports(CancellationToken token)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
@@ -44,7 +44,7 @@ namespace DriverReports.WebApi.Controllers
             //если админ,то все репорты, если водитель то только его репорты
             //var result = await _reportsService.GetAllReportsAsync(token);
            // return Ok(result);
-        }
+        }   
 
         [HttpGet("{userId:guid}")]
         public async Task<IActionResult> GetReportsByUserId(Guid userId,CancellationToken token)
