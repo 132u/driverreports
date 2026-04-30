@@ -25,7 +25,7 @@ namespace DriverReports.WebApi.Controllers
             if (!DateTime.TryParse(request.ReportDate, out var date))
                 return BadRequest("Invalid date format");
 
-            var createReportDto = new CreateReportDto(request.UserId, date, request.Price, request.Description, request.PaymentType);
+            var createReportDto = new CreateReportDto(request.UserId, date, request.Price, request.moneyHolder, request.Description, request.PaymentType);
             var id = await _reportsService.CreateReportAsync(createReportDto, token);
             return Ok(id);
         }
