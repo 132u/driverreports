@@ -29,5 +29,11 @@ namespace DriverReports.Application.Services
 
             return user.Id;
         }
+
+        public Task<IEnumerable<User>> GetUsersAsync(CancellationToken cancellationToken)
+        {
+            var result = _userRepository.GetAllAsync();
+            return result;
+        }
     }
 }
