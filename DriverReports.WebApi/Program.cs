@@ -21,6 +21,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 // 🔹 3. Services (Application)
 builder.Services.AddScoped<IReportsService, ReportsService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

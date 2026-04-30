@@ -1,4 +1,4 @@
-﻿using DriverReports.Application.Services.Auth;
+﻿using DriverReports.Application.Interfaces;
 using DriverReports.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
