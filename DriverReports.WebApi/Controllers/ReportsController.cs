@@ -32,15 +32,15 @@ namespace DriverReports.WebApi.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
-            var tt = UserRole.Admin.ToString();
-            if (role == UserRole.Admin.ToString())
+            var roleValue = User.FindFirst(ClaimTypes.Role)?.Value;
+            if (roleValue != null && int.Parse(roleValue) == (int)UserRole.Admin)
             {
                 var result2 = await _reportsService.GetAllReportsAsync(token);
                 return Ok(await _reportsService.GetAllReportsAsync(token));
             }
-
-            var t = _reportsService.GetReportsByUserIdAsync(Guid.Parse(userId), token);
-            return Ok(_reportsService.GetReportsByUserIdAsync(Guid.Parse(userId), token));
+            
+            var t = await _reportsService.GetReportsByUserIdAsync(Guid.Parse(userId), token);
+            return Ok(await _reportsService.GetReportsByUserIdAsync(Guid.Parse(userId), token));
             //если админ,то все репорты, если водитель то только его репорты
             //var result = await _reportsService.GetAllReportsAsync(token);
            // return Ok(result);
