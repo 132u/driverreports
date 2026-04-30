@@ -1,10 +1,12 @@
-﻿using DriverReports.WebApi.Contracts.Report;
-using DriverReports.Application.DTOs.Reports;
+﻿using DriverReports.Application.DTOs.Reports;
 using DriverReports.Application.Services.Interfaces;
+using DriverReports.WebApi.Contracts.Report;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DriverReports.WebApi.Controllers
 {
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ReportsController : ControllerBase
@@ -21,6 +23,14 @@ namespace DriverReports.WebApi.Controllers
             var createReportDto = new CreateReportDto(request.UserId, request.Date, request.Price, request.Description, request.PaymentType);
             var id = await _reportsService.CreateReportAsync(createReportDto, token);
             return Ok(id);
+        }
+
+        //[Authorize(Roles = "Admin")]
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllReports(CancellationToken token)
+        {
+            var result = await _reportsService.GetAllReportsAsync(token);
+            return Ok(result);
         }
     }
 }

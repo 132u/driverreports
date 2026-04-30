@@ -29,6 +29,22 @@ namespace DriverReports.Application.Services
 
             return report.Id;
         }
+
+        public async Task<IEnumerable<Report>> GetReportsByUserId(Guid userId, CancellationToken cancellationToken)
+        {
+            var result = await _reportRepository.GetByDriverIdAsync(userId);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Report>> GetAllReportsAsync(CancellationToken cancellationToken)
+        {
+            var result = await _reportRepository.GetAllAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return result;
+        }
     }
 }
 
