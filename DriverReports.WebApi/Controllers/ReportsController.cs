@@ -1,8 +1,10 @@
 ﻿using DriverReports.Application.DTOs.Reports;
 using DriverReports.Application.Services.Interfaces;
+using DriverReports.Domain.Entities;
 using DriverReports.WebApi.Contracts.Report;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace DriverReports.WebApi.Controllers
 {
@@ -25,12 +27,23 @@ namespace DriverReports.WebApi.Controllers
             return Ok(id);
         }
 
-        //[Authorize(Roles = "Admin")]
         [HttpGet("all")]
         public async Task<IActionResult> GetAllReports(CancellationToken token)
         {
-            var result = await _reportsService.GetAllReportsAsync(token);
-            return Ok(result);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var tt = UserRole.Admin.ToString();
+            if (role == UserRole.Admin.ToString())
+            {
+                var result2 = await _reportsService.GetAllReportsAsync(token);
+                return Ok(await _reportsService.GetAllReportsAsync(token));
+            }
+
+            var t = _reportsService.GetReportsByUserIdAsync(Guid.Parse(userId), token);
+            return Ok(_reportsService.GetReportsByUserIdAsync(Guid.Parse(userId), token));
+            //если админ,то все репорты, если водитель то только его репорты
+            //var result = await _reportsService.GetAllReportsAsync(token);
+           // return Ok(result);
         }
 
         [HttpGet("{userId:guid}")]
