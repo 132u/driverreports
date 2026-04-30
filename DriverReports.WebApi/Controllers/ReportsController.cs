@@ -32,5 +32,12 @@ namespace DriverReports.WebApi.Controllers
             var result = await _reportsService.GetAllReportsAsync(token);
             return Ok(result);
         }
+
+        [HttpGet("{userId:guid}")]
+        public async Task<IActionResult> GetReportsByUserId(Guid userId,CancellationToken token)
+        {
+            var result = await _reportsService.GetReportsByUserIdAsync(userId, token);
+            return Ok(result);
+        }
     }
 }
