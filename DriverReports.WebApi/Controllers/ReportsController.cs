@@ -10,7 +10,7 @@ namespace DriverReports.WebApi.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ReportsController : ControllerBase
     {
         private readonly IReportsService _reportsService;
@@ -27,7 +27,7 @@ namespace DriverReports.WebApi.Controllers
             return Ok(id);
         }
 
-        [HttpGet("reports")]
+        [HttpGet]
         public async Task<IActionResult> GetReports(CancellationToken token)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
