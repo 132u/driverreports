@@ -3,7 +3,10 @@ using DriverReport.Infrastructure.Repositories;
 using DriverReports.Application.Interfaces;
 using DriverReports.Application.Services;
 using DriverReports.Application.Services.Interfaces;
+using DriverReports.WebApi.Mapping;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(cfg => { },
+    typeof(ReportMappingProfile).Assembly);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,6 +44,20 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//builder.Services.AddAuthentication("Bearer")
+//    .AddJwtBearer("Bearer", options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = false,
+//            ValidateAudience = false,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            IssuerSigningKey = new SymmetricSecurityKey(
+//                Encoding.UTF8.GetBytes("SUPER_SECRET_KEY_123"))
+//        };
+//    });
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
