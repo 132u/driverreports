@@ -34,9 +34,9 @@ public class Report
         UpdatedDate = DateTime.Now.ToUniversalTime();
         ReportDate = reportDate.ToUniversalTime();
         Price = price;
-        MoneyHolder = moneyHolder;
         Description = description;
         PaymentType = paymentType;
+        ApplyPaymentRules(paymentType, moneyHolder);
     }
 
     public void Update(DateTime reportDate, decimal price, MoneyHolder moneyHolder, string description, PaymentType paymentType)
@@ -49,7 +49,7 @@ public class Report
         Price = price;
         Description = description;
         PaymentType = paymentType;
-        MoneyHolder = moneyHolder;
+        ApplyPaymentRules(paymentType, moneyHolder);
     }
 
     public static (Report report, string Error) Create(Guid driverId, DateTime reportDate, decimal price, MoneyHolder moneyHolder, string description, PaymentType paymentType)
@@ -62,5 +62,19 @@ public class Report
 
         var report = new Report(driverId, reportDate, price, moneyHolder, description, paymentType);
         return (report, error);
+    }
+
+    public void ApplyPaymentRules(PaymentType paymentType, MoneyHolder moneyHolder)
+    {
+        PaymentType = paymentType;
+
+        if (paymentType == PaymentType.Cash)
+        {
+            MoneyHolder = moneyHolder; // можно выбрать
+        }
+        else
+        {
+            MoneyHolder = MoneyHolder.Victor; // правило!
+        }
     }
 }
