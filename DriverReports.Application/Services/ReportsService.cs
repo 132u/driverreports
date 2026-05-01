@@ -20,10 +20,11 @@ namespace DriverReports.Application.Services
         public async Task<Guid> CreateReportAsync(CreateReportDto request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
+            var userName = user.Name;
             if (user == null) {
                 throw new Exception("no user");
             }
-            var (report , error)= Report.Create(request.UserId, request.ReportDate, request.Price, request.MoneyHolder, request.ClientName, request.Description, request.PaymentType);
+            var (report , error)= Report.Create(request.UserId, userName, request.ReportDate, request.Price, request.MoneyHolder, request.ClientName, request.Description, request.PaymentType);
             await _reportRepository.AddAsync(report);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

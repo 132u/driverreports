@@ -17,8 +17,8 @@ public class Report
 {
     public Guid Id { get; private set; }
     public Guid DriverId { get; private set; }
-    public DateTime CreatedDate { get; private set; }
-    public DateTime UpdatedDate { get; private set; }
+
+    public string DriverName { get; private set; }
     public DateTime ReportDate { get; private set; }
     public decimal Price { get; private set; }
     public string Description { get; private set; }
@@ -26,14 +26,18 @@ public class Report
 
     public MoneyHolder MoneyHolder { get; set; }
 
+    public DateTime CreatedDate { get; private set; }
+    public DateTime UpdatedDate { get; private set; }
+    
     public string? ImagePath { get; set; }
 
     public string ClientName { get; private set; }
 
-    public Report(Guid driverId, DateTime reportDate, decimal price, MoneyHolder moneyHolder, string clientName, string description, PaymentType paymentType)
+    public Report(Guid driverId, DateTime reportDate, string driverName, decimal price, MoneyHolder moneyHolder, string clientName, string description, PaymentType paymentType)
     {
         Id = Guid.NewGuid();
         DriverId = driverId;
+        DriverName = driverName;
         CreatedDate = DateTime.Now.ToUniversalTime();
         UpdatedDate = DateTime.Now.ToUniversalTime();
         ReportDate = reportDate.ToUniversalTime();
@@ -58,7 +62,7 @@ public class Report
         ApplyPaymentRules(paymentType, moneyHolder);
     }
 
-    public static (Report report, string Error) Create(Guid driverId, DateTime reportDate, decimal price, MoneyHolder moneyHolder,string clientName, string description, PaymentType paymentType)
+    public static (Report report, string Error) Create(Guid driverId, string driverName, DateTime reportDate, decimal price, MoneyHolder moneyHolder,string clientName, string description, PaymentType paymentType)
     {
         var error = string.Empty;
         if (string.IsNullOrEmpty(description) || price <= 0 || reportDate> DateTime.Now)
@@ -66,7 +70,7 @@ public class Report
             error = "Описание пустое или дата в будущем или цена невалидная";
         }
 
-        var report = new Report(driverId, reportDate, price, moneyHolder, clientName, description, paymentType);
+        var report = new Report(driverId, reportDate, driverName, price, moneyHolder, clientName, description, paymentType);
         return (report, error);
     }
 
