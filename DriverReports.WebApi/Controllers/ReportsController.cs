@@ -33,42 +33,57 @@ namespace DriverReports.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetReports(CancellationToken token)
         {
+            if (!User.Identity?.IsAuthenticated ?? true)
+                return Unauthorized();
+
             var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized("UserId not found");
+
             var roleValue = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            // 🔥 ADMIN
             if (roleValue != null && int.Parse(roleValue) == (int)UserRole.Admin)
             {
                 var allReports = await _reportsService.GetAllReportsAsync(token);
-                var result2 = allReports.Select(r =>
-                {
-                    var imageUrl = r.ImagePath != null
-                        ? baseUrl + r.ImagePath
-                        : null;
-                    return new Report(r.DriverId, r.ReportDate, r.DriverName,
-                     r.Price, r.MoneyHolder, r.ClientName, r.Description, r.PaymentType, imageUrl);
-                });
-                return Ok(result2);
+
+                var result = allReports.Select(r => new Report(
+                    r.DriverId,
+                    r.ReportDate,
+                    r.DriverName,
+                    r.Price,
+                    r.MoneyHolder,
+                    r.ClientName,
+                    r.Description,
+                    r.PaymentType,
+                    r.ImagePath != null ? baseUrl + r.ImagePath : null
+                ));
+
+                return Ok(result);
             }
-            
-            var reports = await _reportsService.GetReportsByUserIdAsync(Guid.Parse(userId), token);   
 
-            
+            // 🔥 DRIVER
+            var reports = await _reportsService.GetReportsByUserIdAsync(
+                Guid.Parse(userId),
+                token
+            );
 
-            var result = reports.Select(r => 
-            {
-                var imageUrl = r.ImagePath != null
-                    ? baseUrl + r.ImagePath
-                    : null;
-                return new Report(r.DriverId, r.ReportDate, r.DriverName,
-                 r.Price, r.MoneyHolder, r.ClientName, r.Description, r.PaymentType, imageUrl);
-            });
+            var result2 = reports.Select(r => new Report(
+                r.DriverId,
+                r.ReportDate,
+                r.DriverName,
+                r.Price,
+                r.MoneyHolder,
+                r.ClientName,
+                r.Description,
+                r.PaymentType,
+                r.ImagePath != null ? baseUrl + r.ImagePath : null
+            ));
 
-            return Ok(result);
-            //если админ,то все репорты, если водитель то только его репорты
-            //var result = await _reportsService.GetAllReportsAsync(token);
-            // return Ok(result);
-        }   
+            return Ok(result2);
+        }
 
         [HttpGet("{userId:guid}")]
         public async Task<IActionResult> GetReportsByUserId(Guid userId,CancellationToken token)
