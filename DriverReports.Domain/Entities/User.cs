@@ -6,7 +6,6 @@ namespace DriverReports.Domain.Entities
     [Flags]
     public enum UserRole
     {
-        None = 0,
         Driver = 1,
         Admin = 2
     }

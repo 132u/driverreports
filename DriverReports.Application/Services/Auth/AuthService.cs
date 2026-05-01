@@ -16,15 +16,15 @@ public class AuthService : IAuthService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<string> Login(LoginRequest request, CancellationToken token)
+    public async Task<string?> Login(LoginRequest request, CancellationToken token)
     {
         var user = await _userRepository.GetByEmailAsync(request.Email);
         if (user == null)
-            throw new Exception("Invalid credentials");
+            return null;
 
         var valid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
         if (!valid)
-            throw new Exception("Invalid credentials");
+            return null;
 
         return _tokenService.GenerateToken(user);
     }

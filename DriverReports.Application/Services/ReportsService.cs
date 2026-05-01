@@ -24,7 +24,16 @@ namespace DriverReports.Application.Services
             if (user == null) {
                 throw new Exception("no user");
             }
-            var (report , error)= Report.Create(request.UserId, userName, request.ReportDate, request.Price, request.MoneyHolder, request.ClientName, request.Description, request.PaymentType);
+            var (report , error)= Report.Create(
+                request.UserId, 
+                userName, 
+                request.ReportDate, 
+                request.Price, 
+                request.MoneyHolder, 
+                request.ClientName, 
+                request.Description, 
+                request.PaymentType,
+                request.imagePath);
             await _reportRepository.AddAsync(report);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

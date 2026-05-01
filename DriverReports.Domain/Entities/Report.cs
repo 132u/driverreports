@@ -33,7 +33,16 @@ public class Report
 
     public string ClientName { get; private set; }
 
-    public Report(Guid driverId, DateTime reportDate, string driverName, decimal price, MoneyHolder moneyHolder, string clientName, string description, PaymentType paymentType)
+    public Report(
+        Guid driverId, 
+        DateTime reportDate, 
+        string driverName, 
+        decimal price, 
+        MoneyHolder moneyHolder, 
+        string clientName, 
+        string description, 
+        PaymentType paymentType,
+        string imagePath)
     {
         Id = Guid.NewGuid();
         DriverId = driverId;
@@ -45,10 +54,18 @@ public class Report
         Description = description;
         PaymentType = paymentType;
         ClientName = clientName;
+        ImagePath = imagePath;
         ApplyPaymentRules(paymentType, moneyHolder);
     }
 
-    public void Update(DateTime reportDate, decimal price, MoneyHolder moneyHolder, string clientName, string description, PaymentType paymentType)
+    public void Update(
+        DateTime reportDate, 
+        decimal price, 
+        MoneyHolder moneyHolder, 
+        string clientName, 
+        string description, 
+        PaymentType paymentType,
+        string imagePath)
     {
         if (price < 0) throw new InvalidOperationException("Цена не может быть отрицательной");
         if (reportDate> DateTime.Now) throw new InvalidOperationException("Дата не может быть в будущем");
@@ -59,10 +76,20 @@ public class Report
         Description = description;
         PaymentType = paymentType;
         ClientName = clientName;
+        ImagePath = imagePath;
         ApplyPaymentRules(paymentType, moneyHolder);
     }
 
-    public static (Report report, string Error) Create(Guid driverId, string driverName, DateTime reportDate, decimal price, MoneyHolder moneyHolder,string clientName, string description, PaymentType paymentType)
+    public static (Report report, string Error) Create(
+        Guid driverId, 
+        string driverName, 
+        DateTime reportDate, 
+        decimal price, 
+        MoneyHolder moneyHolder,
+        string clientName, 
+        string description, 
+        PaymentType paymentType,
+        string imagePath)
     {
         var error = string.Empty;
         if (string.IsNullOrEmpty(description) || price <= 0 || reportDate> DateTime.Now)
@@ -70,7 +97,7 @@ public class Report
             error = "Описание пустое или дата в будущем или цена невалидная";
         }
 
-        var report = new Report(driverId, reportDate, driverName, price, moneyHolder, clientName, description, paymentType);
+        var report = new Report(driverId, reportDate, driverName, price, moneyHolder, clientName, description, paymentType, imagePath);
         return (report, error);
     }
 

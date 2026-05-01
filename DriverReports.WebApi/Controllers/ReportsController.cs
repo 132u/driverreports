@@ -25,7 +25,7 @@ namespace DriverReports.WebApi.Controllers
             if (!DateTime.TryParse(request.ReportDate, out var date))
                 return BadRequest("Invalid date format");
 
-            var createReportDto = new CreateReportDto(request.UserId, date, request.Price, request.MoneyHolder, request.ClientName, request.Description, request.PaymentType);
+            var createReportDto = new CreateReportDto(request.UserId, date, request.Price, request.MoneyHolder, request.ClientName, request.Description, request.PaymentType, request.imagePath);
             var id = await _reportsService.CreateReportAsync(createReportDto, token);
             return Ok(id);
         }
@@ -33,20 +33,41 @@ namespace DriverReports.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetReports(CancellationToken token)
         {
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
             var roleValue = User.FindFirst(ClaimTypes.Role)?.Value;
             if (roleValue != null && int.Parse(roleValue) == (int)UserRole.Admin)
             {
-                var result2 = await _reportsService.GetAllReportsAsync(token);
-                return Ok(await _reportsService.GetAllReportsAsync(token));
+                var allReports = await _reportsService.GetAllReportsAsync(token);
+                var result2 = allReports.Select(r =>
+                {
+                    var imageUrl = r.ImagePath != null
+                        ? baseUrl + r.ImagePath
+                        : null;
+                    return new Report(r.DriverId, r.ReportDate, r.DriverName,
+                     r.Price, r.MoneyHolder, r.ClientName, r.Description, r.PaymentType, imageUrl);
+                });
+                return Ok(result2);
             }
             
-            var t = await _reportsService.GetReportsByUserIdAsync(Guid.Parse(userId), token);
-            return Ok(await _reportsService.GetReportsByUserIdAsync(Guid.Parse(userId), token));
+            var reports = await _reportsService.GetReportsByUserIdAsync(Guid.Parse(userId), token);   
+
+            
+
+            var result = reports.Select(r => 
+            {
+                var imageUrl = r.ImagePath != null
+                    ? baseUrl + r.ImagePath
+                    : null;
+                return new Report(r.DriverId, r.ReportDate, r.DriverName,
+                 r.Price, r.MoneyHolder, r.ClientName, r.Description, r.PaymentType, imageUrl);
+            });
+
+            return Ok(result);
             //если админ,то все репорты, если водитель то только его репорты
             //var result = await _reportsService.GetAllReportsAsync(token);
-           // return Ok(result);
+            // return Ok(result);
         }   
 
         [HttpGet("{userId:guid}")]

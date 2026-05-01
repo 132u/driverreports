@@ -27,6 +27,8 @@ namespace DriverReports.WebApi.Controllers
         public async Task<IActionResult> Login(LoginRequest request, CancellationToken token)
         {
             var jwtToken = await _authService.Login(request, token);
+            if (token == null)
+                return Unauthorized("Invalid credentials");
             return Ok(new { jwtToken });
         }
     }
