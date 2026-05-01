@@ -25,4 +25,8 @@
     <ProjectReference Include="..\DriverReports.Domain\DriverReports.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>

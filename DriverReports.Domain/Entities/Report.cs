@@ -26,6 +26,8 @@ public class Report
 
     public MoneyHolder MoneyHolder { get; set; }
 
+    public string? ImagePath { get; set; }
+
     public Report(Guid driverId, DateTime reportDate, decimal price, MoneyHolder moneyHolder, string description, PaymentType paymentType)
     {
         Id = Guid.NewGuid();
