@@ -28,7 +28,9 @@ public class Report
 
     public string? ImagePath { get; set; }
 
-    public Report(Guid driverId, DateTime reportDate, decimal price, MoneyHolder moneyHolder, string description, PaymentType paymentType)
+    public string ClientName { get; private set; }
+
+    public Report(Guid driverId, DateTime reportDate, decimal price, MoneyHolder moneyHolder, string clientName, string description, PaymentType paymentType)
     {
         Id = Guid.NewGuid();
         DriverId = driverId;
@@ -38,10 +40,11 @@ public class Report
         Price = price;
         Description = description;
         PaymentType = paymentType;
+        ClientName = clientName;
         ApplyPaymentRules(paymentType, moneyHolder);
     }
 
-    public void Update(DateTime reportDate, decimal price, MoneyHolder moneyHolder, string description, PaymentType paymentType)
+    public void Update(DateTime reportDate, decimal price, MoneyHolder moneyHolder, string clientName, string description, PaymentType paymentType)
     {
         if (price < 0) throw new InvalidOperationException("Цена не может быть отрицательной");
         if (reportDate> DateTime.Now) throw new InvalidOperationException("Дата не может быть в будущем");
@@ -51,10 +54,11 @@ public class Report
         Price = price;
         Description = description;
         PaymentType = paymentType;
+        ClientName = clientName;
         ApplyPaymentRules(paymentType, moneyHolder);
     }
 
-    public static (Report report, string Error) Create(Guid driverId, DateTime reportDate, decimal price, MoneyHolder moneyHolder, string description, PaymentType paymentType)
+    public static (Report report, string Error) Create(Guid driverId, DateTime reportDate, decimal price, MoneyHolder moneyHolder,string clientName, string description, PaymentType paymentType)
     {
         var error = string.Empty;
         if (string.IsNullOrEmpty(description) || price <= 0 || reportDate> DateTime.Now)
@@ -62,7 +66,7 @@ public class Report
             error = "Описание пустое или дата в будущем или цена невалидная";
         }
 
-        var report = new Report(driverId, reportDate, price, moneyHolder, description, paymentType);
+        var report = new Report(driverId, reportDate, price, moneyHolder, clientName, description, paymentType);
         return (report, error);
     }
 
