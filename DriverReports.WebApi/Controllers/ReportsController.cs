@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace DriverReports.WebApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ReportsController : ControllerBase
