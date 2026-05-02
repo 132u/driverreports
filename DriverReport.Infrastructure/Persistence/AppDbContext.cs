@@ -1,16 +1,18 @@
-﻿using DriverReports.Application.Interfaces;
-using DriverReports.Domain.Entities;
+﻿using DriverReports.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DriverReport.Infrastructure.Persistence
+public class AppDbContext : DbContext
 {
-    public class AppDbContext : DbContext
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options) { }
+
+    public DbSet<Report> Reports { get; set; }
+    public DbSet<User> Users { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options): base (options) { }
-        public DbSet<Report> Reports{ get; set; }
-        public DbSet<User> Users{ get; set; }
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 }

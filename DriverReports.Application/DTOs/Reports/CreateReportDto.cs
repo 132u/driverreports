@@ -5,5 +5,5 @@ using System.Text;
 
 namespace DriverReports.Application.DTOs.Reports
 {
-    public record CreateReportDto(Guid UserId, DateTime ReportDate, decimal Price, MoneyHolder MoneyHolder, string ClientName, string Description, PaymentType PaymentType, List<string> imagePath);
+    public record CreateReportDto(Guid UserId, DateTime ReportDate, decimal Price, MoneyHolder MoneyHolder, string ClientName, string Description, PaymentType PaymentType, List<string> ImagePaths);
 }

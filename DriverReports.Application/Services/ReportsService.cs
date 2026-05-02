@@ -21,9 +21,11 @@ namespace DriverReports.Application.Services
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
             var userName = user.Name;
+
             if (user == null) {
                 throw new Exception("no user");
             }
+
             var (report , error)= Report.Create(
                 request.UserId, 
                 userName, 
@@ -33,7 +35,7 @@ namespace DriverReports.Application.Services
                 request.ClientName, 
                 request.Description, 
                 request.PaymentType,
-                request.imagePath);
+                request.ImagePaths);
             await _reportRepository.AddAsync(report);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

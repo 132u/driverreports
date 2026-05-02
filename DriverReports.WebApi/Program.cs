@@ -95,6 +95,7 @@ builder.Services.AddCors(options =>
 //builder.Services.AddAutoMapper(cfg => { },
 //    typeof(ReportMappingProfile).Assembly);
 var app = builder.Build();
+app.UseStaticFiles();
 app.UseCors("AllowAll");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

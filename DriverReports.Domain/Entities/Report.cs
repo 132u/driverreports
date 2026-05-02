@@ -29,7 +29,7 @@ public class Report
     public DateTime CreatedDate { get; private set; }
     public DateTime UpdatedDate { get; private set; }
     
-    public List<string?> ImagePath { get; set; }
+    public List<string?> ImagePaths { get; set; } = new();
 
     public string ClientName { get; private set; }
 
@@ -42,7 +42,7 @@ public class Report
         string clientName, 
         string description, 
         PaymentType paymentType,
-        List<string> imagePath)
+        List<string> imagePaths)
     {
         Id = Guid.NewGuid();
         DriverId = driverId;
@@ -54,7 +54,7 @@ public class Report
         Description = description;
         PaymentType = paymentType;
         ClientName = clientName;
-        ImagePath = imagePath;
+        ImagePaths = imagePaths ?? new List<string>();
         ApplyPaymentRules(paymentType, moneyHolder);
     }
 
@@ -76,7 +76,7 @@ public class Report
         Description = description;
         PaymentType = paymentType;
         ClientName = clientName;
-        ImagePath = imagePath;
+        ImagePaths = imagePath;
         ApplyPaymentRules(paymentType, moneyHolder);
     }
 

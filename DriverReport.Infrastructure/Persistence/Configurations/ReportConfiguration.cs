@@ -1,6 +1,8 @@
 ﻿using DriverReports.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
+using System.Text.Json;
 
 namespace DriverReport.Infrastructure.Persistence.Configurations
 {
@@ -29,6 +31,13 @@ namespace DriverReport.Infrastructure.Persistence.Configurations
 
             builder.Property(b => b.PaymentType)
                 .IsRequired();
+
+            builder.Property(r => r.ImagePaths)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null) ?? new()
+                )
+                .IsRequired(false);
         }
     }
 }

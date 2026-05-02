@@ -59,7 +59,7 @@ namespace DriverReports.WebApi.Controllers
                     r.ClientName,
                     r.Description,
                     r.PaymentType,
-                   null// r.ImagePath != null ? baseUrl + r.ImagePath : null
+                  r.ImagePaths ?? new List<string>()
                 ));
 
                 return Ok(result);
@@ -80,8 +80,7 @@ namespace DriverReports.WebApi.Controllers
                 r.ClientName,
                 r.Description,
                 r.PaymentType,
-                null
-               // r.ImagePath != null ? baseUrl + r.ImagePath : null
+               r.ImagePaths ?? new List<string>()
             ));
 
             return Ok(result2);

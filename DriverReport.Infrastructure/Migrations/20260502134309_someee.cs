@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DriverReport.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init2 : Migration
+    public partial class someee : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,10 +17,16 @@ namespace DriverReport.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     DriverId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DriverName = table.Column<string>(type: "text", nullable: false),
+                    ReportDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    PaymentType = table.Column<int>(type: "integer", nullable: false)
+                    PaymentType = table.Column<int>(type: "integer", nullable: false),
+                    MoneyHolder = table.Column<int>(type: "integer", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ImagePaths = table.Column<string>(type: "text", nullable: true),
+                    ClientName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
