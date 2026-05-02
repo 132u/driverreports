@@ -22,10 +22,11 @@ namespace DriverReports.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateReportResponce>> Create(CreateReportRequest request, CancellationToken token)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!DateTime.TryParse(request.ReportDate, out var date))
                 return BadRequest("Invalid date format");
 
-            var createReportDto = new CreateReportDto(request.UserId, date, request.Price, request.MoneyHolder, request.ClientName, request.Description, request.PaymentType, request.imagePath);
+            var createReportDto = new CreateReportDto(Guid.Parse(userId), date, request.Price, request.MoneyHolder, request.ClientName, request.Description, request.PaymentType, request.imagePath);
             var id = await _reportsService.CreateReportAsync(createReportDto, token);
             return Ok(id);
         }
@@ -58,7 +59,7 @@ namespace DriverReports.WebApi.Controllers
                     r.ClientName,
                     r.Description,
                     r.PaymentType,
-                    r.ImagePath != null ? baseUrl + r.ImagePath : null
+                   null// r.ImagePath != null ? baseUrl + r.ImagePath : null
                 ));
 
                 return Ok(result);
@@ -79,7 +80,8 @@ namespace DriverReports.WebApi.Controllers
                 r.ClientName,
                 r.Description,
                 r.PaymentType,
-                r.ImagePath != null ? baseUrl + r.ImagePath : null
+                null
+               // r.ImagePath != null ? baseUrl + r.ImagePath : null
             ));
 
             return Ok(result2);

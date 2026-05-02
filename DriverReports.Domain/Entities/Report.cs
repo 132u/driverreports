@@ -29,7 +29,7 @@ public class Report
     public DateTime CreatedDate { get; private set; }
     public DateTime UpdatedDate { get; private set; }
     
-    public string? ImagePath { get; set; }
+    public List<string?> ImagePath { get; set; }
 
     public string ClientName { get; private set; }
 
@@ -42,7 +42,7 @@ public class Report
         string clientName, 
         string description, 
         PaymentType paymentType,
-        string imagePath)
+        List<string> imagePath)
     {
         Id = Guid.NewGuid();
         DriverId = driverId;
@@ -65,7 +65,7 @@ public class Report
         string clientName, 
         string description, 
         PaymentType paymentType,
-        string imagePath)
+        List<string> imagePath)
     {
         if (price < 0) throw new InvalidOperationException("Цена не может быть отрицательной");
         if (reportDate> DateTime.Now) throw new InvalidOperationException("Дата не может быть в будущем");
@@ -89,7 +89,7 @@ public class Report
         string clientName, 
         string description, 
         PaymentType paymentType,
-        string imagePath)
+        List<string> imagePath)
     {
         var error = string.Empty;
         if (string.IsNullOrEmpty(description) || price <= 0 || reportDate> DateTime.Now)

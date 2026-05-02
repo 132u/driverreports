@@ -1,40 +1,48 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static System.Net.WebRequestMethods;
 
 namespace DriverReports.WebApi.Controllers
 {
-    [ApiController]
-    [Route("api/files")]
     [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
     public class FilesController : ControllerBase
     {
         [HttpPost("upload")]
-        public async Task<IActionResult> Upload(IFormFile file)
+        public async Task<IActionResult> Upload(List<IFormFile> files)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var uploadsRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-
+            //var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            var uploadPath = Path.Combine("wwwroot", "uploads", userId);
             // папка пользователя
-            var userFolder = Path.Combine(uploadsRoot, userId);
+            var userFolder = Path.Combine(uploadPath, userId);
 
             // 👉 ВОТ ЭТО ВАЖНО
             if (!Directory.Exists(userFolder))
-            {
+            {   
                 Directory.CreateDirectory(userFolder);
             }
 
-            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var urls = new List<string>();
 
-            var fullPath = Path.Combine(userFolder, fileName);
-
-            using (var stream = new FileStream(fullPath, FileMode.Create))
+            foreach (var file in files)
             {
-                await file.CopyToAsync(stream);
+                var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                var fullPath = Path.Combine(uploadPath, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                urls.Add($"/uploads/{userId}/{fileName}");
             }
 
-            return Ok(new { url = $"/uploads/{userId}/{fileName}" });
+            return Ok(new { urls });
+            //return Ok(new { url = $"/uploads/{userId}/{fileName}" });
         }
     }
 }

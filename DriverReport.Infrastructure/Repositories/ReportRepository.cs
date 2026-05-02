@@ -29,7 +29,21 @@ namespace DriverReport.Infrastructure.Repositories
 
         public async Task<IEnumerable<Report>> GetAllAsync()
         {
-            return await _appDbContext.Reports.AsNoTracking().ToListAsync();
+            //return await _appDbContext.Reports.AsNoTracking().ToListAsync();
+            return await _appDbContext.Reports
+                .AsNoTracking()
+                .Select(r => new Report(
+                    r.DriverId,
+                    r.ReportDate,
+                    r.DriverName,
+                    r.Price,
+                    r.MoneyHolder,
+                    r.ClientName,
+                    r.Description,
+                    r.PaymentType,
+                    null // 👈 вместо ImagePaths
+                ))
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Report>> GetByDriverIdAsync(Guid driverId)
