@@ -1,6 +1,6 @@
 ﻿namespace DriverReports.Application.DTOs.Auth
 {
-    public record LoginRequest(
+    public record LoginRequestDto(
         string Email,
         string Password);
 }

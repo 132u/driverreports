@@ -1,13 +1,8 @@
-﻿using DriverReports.Application.DTOs.Reports;
-using DriverReports.Application.DTOs.Users;
+﻿using DriverReports.Application.DTOs.Users;
 using DriverReports.Application.Interfaces;
-using DriverReports.Application.Services.Interfaces;
 using DriverReports.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DriverReports.Application.Services
+namespace DriverReports.Application.Services.Users
 {
     public class UserService : IUserService
     {
@@ -21,18 +16,18 @@ namespace DriverReports.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Guid> CreateUserAsync(CreateUserDto request, CancellationToken cancellationToken)
+        public async Task<Guid> CreateUserAsync(CreateUserDto request, CancellationToken token)
         {
             var (user, error) = User.Create(request.id, request.name, request.email, request.passwordHash, request.role);
-            await _userRepository.AddAsync(user);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _userRepository.AddAsync(user, token);
+            await _unitOfWork.SaveChangesAsync(token);
 
             return user.Id;
         }
 
-        public Task<IEnumerable<User>> GetUsersAsync(CancellationToken cancellationToken)
+        public Task<IEnumerable<User>> GetUsersAsync(CancellationToken token)
         {
-            var result = _userRepository.GetAllAsync();
+            var result = _userRepository.GetAllAsync(token);
             return result;
         }
     }

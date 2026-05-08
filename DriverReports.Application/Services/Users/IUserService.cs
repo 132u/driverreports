@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DriverReports.Application.Services.Interfaces
+namespace DriverReports.Application.Services.Users
 {
     public interface IUserService
     {

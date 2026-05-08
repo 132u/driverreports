@@ -1,6 +1,6 @@
 ﻿using DriverReports.Application.DTOs.Auth;
 using DriverReports.Application.Interfaces;
-using DriverReports.Application.Services.Interfaces;
+using DriverReports.Application.Services.Auth;
 using DriverReports.Domain.Entities;
 
 public class AuthService : IAuthService
@@ -16,9 +16,9 @@ public class AuthService : IAuthService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<string?> Login(LoginRequest request, CancellationToken token)
+    public async Task<string?> Login(LoginRequestDto request, CancellationToken token)
     {
-        var user = await _userRepository.GetByEmailAsync(request.Email);
+        var user = await _userRepository.GetByEmailAsync(request.Email, token);
         if (user == null)
             return null;
 
@@ -26,28 +26,28 @@ public class AuthService : IAuthService
         if (!valid)
             return null;
 
+
         return _tokenService.GenerateToken(user);
     }
 
     public async Task<string> Register(RegisterRequest request, CancellationToken token)
     {
-        var existing = await _userRepository.GetByEmailAsync(request.Email);
+        var existing = await _userRepository.GetByEmailAsync(request.Email, token);
         if (existing != null)
             throw new Exception("User already exists");
 
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-        var user = new User(
+        var (user, error) = User.Create(
             Guid.NewGuid(),
             request.Name,
             request.Email,
             passwordHash,
             UserRole.Driver);
 
-        await _userRepository.AddAsync(user);
+        await _userRepository.AddAsync(user, token);
         await _unitOfWork.SaveChangesAsync(token);
-        //TODO: remode debug code
-        var rr = _tokenService.GenerateToken(user);
+      
         return _tokenService.GenerateToken(user);
     }
 }

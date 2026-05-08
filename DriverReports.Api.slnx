@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
   <Project Path="DriverReport.Infrastructure/DriverReport.Infrastructure.csproj" />
   <Project Path="DriverReports.Application/DriverReports.Application.csproj" />
   <Project Path="DriverReports.Domain/DriverReports.Domain.csproj" />

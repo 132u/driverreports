@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.Xml.Linq;
-
-namespace DriverReports.Domain.Entities
+﻿namespace DriverReports.Domain.Entities
 {
     [Flags]
     public enum UserRole
@@ -12,7 +9,7 @@ namespace DriverReports.Domain.Entities
 
     public class User
     {
-        public User(Guid id, string name, string email, string passwordHash, UserRole roles)
+        private User(Guid id, string name, string email, string passwordHash, UserRole roles)
         {
             Id = id;
             Name = name;

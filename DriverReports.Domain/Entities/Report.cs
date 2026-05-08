@@ -9,8 +9,8 @@ public enum PaymentType
 
 public enum MoneyHolder
 {
-    Driver = 1,
-    Victor = 2
+    Driver = 0,
+    Victor = 1
 }
 
 public class Report
@@ -32,6 +32,9 @@ public class Report
     public List<string?> ImagePaths { get; set; } = new();
 
     public string ClientName { get; private set; }
+
+    public Report()
+    { }
 
     public Report(
         Guid driverId, 

@@ -1,14 +1,15 @@
-﻿using DriverReports.Domain.Entities;
+﻿using DriverReports.Application.DTOs.Reports;
+using DriverReports.Domain.Entities;
 
 namespace DriverReports.Application.Interfaces
 {
     public interface IReportRepository
     {
-        Task<Report?> GetByIdAsync(Guid id);
-        Task<IEnumerable<Report>> GetAllAsync();
-        Task<IEnumerable<Report>> GetByDriverIdAsync(Guid driverId);
-        Task AddAsync(Report report);
-        Task UpdateAsync(Report report);
-        Task DeleteAsync(Guid id);
+        Task<Report?> GetByIdAsync(Guid id, CancellationToken token);
+        Task<IEnumerable<Report>> GetAllAsync(CancellationToken token);
+        Task<IEnumerable<Report>> GetByUserIdAsync(Guid driverId, CancellationToken token);
+        Task<Guid> AddAsync(Report report, CancellationToken token);
+        //Task<Guid> UpdateAsync(Report report, CancellationToken token);
+        //Task DeleteAsync(Guid id, CancellationToken token);
     }
 }

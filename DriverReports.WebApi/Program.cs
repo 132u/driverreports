@@ -1,13 +1,15 @@
 using DriverReport.Infrastructure.Persistence;
 using DriverReport.Infrastructure.Repositories;
 using DriverReports.Application.Interfaces;
-using DriverReports.Application.Services;
-using DriverReports.Application.Services.Interfaces;
+using DriverReports.Application.Services.Auth;
+using DriverReports.Application.Services.FinancialSummary;
+using DriverReports.Application.Services.Reports;
+using DriverReports.Application.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 //using DriverReports.WebApi.Mapping;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,13 +19,18 @@ builder.Services.AddDbContext<AppDbContext>(
 // 🔹 2. Repositories (Infrastructure)
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFinancialOperationRepository, FinancialOperationRepository>();
 
 // 🔹 3. Services (Application)
 builder.Services.AddScoped<IReportsService, ReportsService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
-
+builder.Services.AddScoped<IDriverFinancialSummaryService,
+    DriverFinancialSummaryService>();
+builder.Services.AddAutoMapper(
+    AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<FinancialCalculator>();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //builder.Services.AddOpenApi();
@@ -59,7 +66,7 @@ builder.Services.AddSwaggerGen();
 //    });
 //});
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+//var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -95,8 +102,6 @@ builder.Services.AddCors(options =>
 //builder.Services.AddAutoMapper(cfg => { },
 //    typeof(ReportMappingProfile).Assembly);
 var app = builder.Build();
-app.UseStaticFiles();
-app.UseCors("AllowAll");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -106,16 +111,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowAll");
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors(x =>
-{
-    x.WithHeaders().AllowAnyHeader();
-    x.WithOrigins("http://localhost:3000");
-    x.WithMethods().AllowAnyMethod();
-});
+
 app.Run();

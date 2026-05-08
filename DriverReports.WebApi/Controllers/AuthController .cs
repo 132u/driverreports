@@ -1,12 +1,12 @@
 ﻿using DriverReports.Application.DTOs.Auth;
-using DriverReports.Application.Interfaces;
+using DriverReports.Application.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DriverReports.WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController: ControllerBase
+    public class AuthController: BaseController
     {
         private readonly IAuthService _authService;
 
@@ -24,7 +24,7 @@ namespace DriverReports.WebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest request, CancellationToken token)
+        public async Task<IActionResult> Login(LoginRequestDto request, CancellationToken token)
         {
             var jwtToken = await _authService.Login(request, token);
             if (token == null)

@@ -1,10 +1,6 @@
-﻿using DriverReport.Infrastructure.Persistence;
-using DriverReports.Application.Interfaces;
+﻿using DriverReports.Application.Interfaces;
 using DriverReports.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DriverReport.Infrastructure.Repositories
 {
@@ -17,9 +13,11 @@ namespace DriverReport.Infrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
-        public async Task AddAsync(Report report)
+
+        public async Task<Guid> AddAsync(Report report, CancellationToken token)
         {
-            await _appDbContext.Reports.AddAsync(report);
+            await _appDbContext.Reports.AddAsync(report, token);
+            return report.Id;
         }
 
         public async Task DeleteAsync(Guid id)
@@ -27,7 +25,7 @@ namespace DriverReport.Infrastructure.Repositories
             await _appDbContext.Reports.Where(report => report.DriverId == id).ExecuteDeleteAsync();
         }
 
-        public async Task<IEnumerable<Report>> GetAllAsync()
+        public async Task<IEnumerable<Report>> GetAllAsync(CancellationToken token)
         {
             //return await _appDbContext.Reports.AsNoTracking().ToListAsync();
             return await _appDbContext.Reports
@@ -46,17 +44,17 @@ namespace DriverReport.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Report>> GetByDriverIdAsync(Guid driverId)
+        public async Task<IEnumerable<Report>> GetByUserIdAsync(Guid driverId, CancellationToken token)
         {
             return await _appDbContext.Reports.Where(report => report.DriverId == driverId).AsNoTracking().ToListAsync();
         }
 
-        public async Task<Report?> GetByIdAsync(Guid id)
+        public async Task<Report?> GetByIdAsync(Guid id, CancellationToken token)
         {
             return await _appDbContext.Reports.FirstOrDefaultAsync(report => report.DriverId == id);
         }
 
-        public async Task UpdateAsync(Report report)
+        public async Task UpdateAsync(Report report, CancellationToken token)
         {
             await _appDbContext.Reports.Where(r=>r.Id==report.Id)
                 .ExecuteUpdateAsync(s =>

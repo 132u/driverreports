@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DriverReports.Application.Interfaces
+namespace DriverReports.Application.Services.Auth
 {
     public interface ITokenService
     {
