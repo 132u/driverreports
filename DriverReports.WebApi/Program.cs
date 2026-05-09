@@ -100,7 +100,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-
+builder.WebHost.UseUrls("http://0.0.0.0:5288");
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //builder.Services.AddAutoMapper(cfg => { },
 //    typeof(ReportMappingProfile).Assembly);

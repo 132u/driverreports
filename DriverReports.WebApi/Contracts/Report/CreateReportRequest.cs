@@ -13,5 +13,5 @@ namespace DriverReports.WebApi.Contracts.Report
         string ClientName, 
         string Description, 
         PaymentType PaymentType, 
-        List<string> ImagePaths);
+        List<string>? ImagePaths = null);
 }
