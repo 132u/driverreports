@@ -26,7 +26,15 @@ namespace DriverReports.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(CreateReportRequest request, CancellationToken token)
         {
-            var dto = _mapper.Map<CreateReportDto>(request);
+            var dto = new CreateReportDto(
+                request.ReportDate,
+                request.Price,
+                request.MoneyHolder,
+                request.ClientName,
+                request.Description,
+                request.PaymentType,
+                request.ImagePaths
+             );
             var id = await _reportsService.CreateAsync(dto, UserId, token);
             return Ok(id);
         }

@@ -5,5 +5,13 @@ using System.Text;
 
 namespace DriverReports.WebApi.Contracts.Report
 {
-    public record CreateReportRequest(Guid UserId, string ReportDate, decimal Price, MoneyHolder MoneyHolder, string ClientName, string Description, PaymentType PaymentType, List<string> imagePath);
+    public record CreateReportRequest(
+        Guid UserId,
+        DateTime ReportDate, 
+        decimal Price, 
+        MoneyHolder MoneyHolder, 
+        string ClientName, 
+        string Description, 
+        PaymentType PaymentType, 
+        List<string> ImagePaths);
 }
