@@ -1,0 +1,263 @@
+{
+  "info": {
+    "_postman_id": "30b83e4b-9976-4e14-b9a3-5ba209270de7",
+    "name": "DriverReports",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "14459873"
+  },
+  "item": [
+    {
+      "name": "GetAll reports",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijk0YWM3MjA4LWFiNDMtNGNlNC1hZDU4LTZiZGNmZmM0NjQ3OCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QyQHRlc3QucnUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibm9uQWRtaW4iLCJyb2xlcyI6IjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJEcml2ZXIiLCJleHAiOjE3NzgzMzQzNzksImlzcyI6Ik15QXBwIiwiYXVkIjoiTXlBcHBVc2VycyJ9.FNkgnajLQGqd057O8SRW4l4TwZwBHNpFxwQupAb7YvE",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7289/api/reports",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7289",
+          "path": [
+            "api",
+            "reports"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"nonAdmin2\",\r\n  \"email\": \"test3@test.ru\",\r\n  \"password\": \"test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7289/api/auth/register",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7289",
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"test2@test.ru\",\r\n  \"password\": \"test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7289/api/Auth/login",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7289",
+          "path": [
+            "api",
+            "Auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create report",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijk0YWM3MjA4LWFiNDMtNGNlNC1hZDU4LTZiZGNmZmM0NjQ3OCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3QyQHRlc3QucnUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibm9uQWRtaW4iLCJyb2xlcyI6IjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJEcml2ZXIiLCJleHAiOjE3NzgzMzQzNzksImlzcyI6Ik15QXBwIiwiYXVkIjoiTXlBcHBVc2VycyJ9.FNkgnajLQGqd057O8SRW4l4TwZwBHNpFxwQupAb7YvE",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"userId\": \"94ac7208-ab43-4ce4-ad58-6bdcffc46478\",\r\n  \"reportDate\": \"1989-01-15\",\r\n  \"price\": 5000,\r\n  \"moneyHolder\": 1,\r\n  \"clientName\": \"client non admin\",\r\n  \"description\": \"description non admin\",\r\n  \"paymentType\": 1,\r\n  \"ImagePaths\": [\r\n    \"/uploads/d3dab813-6362-4073-b46a-5202e22ee968/2666833e-9cdc-4ad0-9a1f-97ba7b6c8c68.jpg\"\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7289/api/reports",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7289",
+          "path": [
+            "api",
+            "reports"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Upload file",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImQzZGFiODEzLTYzNjItNDA3My1iNDZhLTUyMDJlMjJlZTk2OCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3RAdGVzdC5ydSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJ0ZXN0Iiwicm9sZXMiOiIxIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiRHJpdmVyIiwiZXhwIjoxNzc4MzEwMjQyLCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15QXBwVXNlcnMifQ.5Hbh4ywlki2DG7I0ncJ60QNYuiiQUBOA2fVD6fzmNuI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "files",
+              "type": "file",
+              "uuid": "061a6073-d8c4-45ee-ac01-770100bf638c",
+              "src": "/C:/Users/Selecty/Desktop/security.jpg"
+            },
+            {
+              "key": "",
+              "value": "",
+              "type": "text",
+              "uuid": "797d8710-34fe-4199-a32d-f69f39a856c4",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://localhost:7289/api/Files/upload",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7289",
+          "path": [
+            "api",
+            "Files",
+            "upload"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create financialOperations",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImQzZGFiODEzLTYzNjItNDA3My1iNDZhLTUyMDJlMjJlZTk2OCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3RAdGVzdC5ydSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJ0ZXN0Iiwicm9sZXMiOiIxIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiRHJpdmVyIiwiZXhwIjoxNzc4MzEwMjQyLCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15QXBwVXNlcnMifQ.5Hbh4ywlki2DG7I0ncJ60QNYuiiQUBOA2fVD6fzmNuI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"date\": \"2023-09-09T05:36:46.535Z\",\r\n  \"amount\": 200,\r\n  \"type\": 1,\r\n  \"comment\": \"comment second\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7289/api/financialOperations",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7289",
+          "path": [
+            "api",
+            "financialOperations"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get all financialOperations",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImQzZGFiODEzLTYzNjItNDA3My1iNDZhLTUyMDJlMjJlZTk2OCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3RAdGVzdC5ydSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJ0ZXN0Iiwicm9sZXMiOiIyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3NzgzMzM3MjEsImlzcyI6Ik15QXBwIiwiYXVkIjoiTXlBcHBVc2VycyJ9.SyAiI2b9S5rHJCpz0yYokRUHJQYtnXdvukfqamSObKI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7289/api/financialOperations",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7289",
+          "path": [
+            "api",
+            "financialOperations"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
