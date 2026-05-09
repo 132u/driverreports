@@ -13,11 +13,11 @@ namespace DriverReports.WebApi.Controllers
     [Route("api/[controller]")]
     public class FinancialOperationsController : BaseController
     {
-        private readonly FinancialOperationsService _financialOperationService;
+        private readonly IFinancialOperationService _financialOperationService;
         private readonly IMapper _mapper;
 
         public FinancialOperationsController(
-            FinancialOperationsService financialOperationService,
+            IFinancialOperationService financialOperationService,
             IMapper mapper)
         {
             _financialOperationService = financialOperationService;

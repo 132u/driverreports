@@ -46,6 +46,7 @@ namespace DriverReports.Application.Services.FinancialOperation
         public async Task<IEnumerable<FinancialOperationDto>> GetAllAsync(CancellationToken cancellationToken)
         {
             var operations = await _financialOpertationRepository.GetAllAsync(cancellationToken);
+            var f = _mapper.Map<IEnumerable<FinancialOperationDto>>(operations);
             return _mapper.Map<IEnumerable<FinancialOperationDto>>(operations);
         }
 

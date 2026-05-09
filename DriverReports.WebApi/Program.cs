@@ -2,6 +2,7 @@ using DriverReport.Infrastructure.Persistence;
 using DriverReport.Infrastructure.Repositories;
 using DriverReports.Application.Interfaces;
 using DriverReports.Application.Services.Auth;
+using DriverReports.Application.Services.FinancialOperation;
 using DriverReports.Application.Services.FinancialSummary;
 using DriverReports.Application.Services.Reports;
 using DriverReports.Application.Services.Users;
@@ -34,7 +35,9 @@ builder.Services.AddScoped<FinancialCalculator>();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //builder.Services.AddOpenApi();
-
+builder.Services.AddScoped<
+    IFinancialOperationService,
+    FinancialOperationsService>();
 // 🔹 5. Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
