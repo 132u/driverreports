@@ -1,6 +1,7 @@
 ﻿using DriverReports.Application.DTOs.Users;
 using DriverReports.Application.Interfaces;
 using DriverReports.Domain.Entities;
+using System.Data;
 
 namespace DriverReports.Application.Services.Users
 {
@@ -29,6 +30,21 @@ namespace DriverReports.Application.Services.Users
         {
             var result = _userRepository.GetAllAsync(token);
             return result;
+        }
+
+        public async Task<List<UserDto>> GetDriversAsync(CancellationToken token)
+        {
+            var users = await _userRepository
+                .GetAllAsync(token);
+
+            return users
+                .Where(x => x.Roles == UserRole.Driver)
+                .Select(x => new UserDto
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                })
+                .ToList();
         }
     }
 }

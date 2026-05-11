@@ -1,9 +1,10 @@
-﻿using DriverReports.WebApi.Contracts.Report;
-using DriverReports.Application.DTOs.Reports;
-using Microsoft.AspNetCore.Mvc;
+﻿using DriverReports.Application.DTOs.Reports;
 using DriverReports.Application.DTOs.Users;
-using DriverReports.Domain.Entities;
 using DriverReports.Application.Services.Users;
+using DriverReports.Domain.Entities;
+using DriverReports.WebApi.Contracts.Report;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DriverReports.WebApi.Controllers
 {
@@ -30,6 +31,15 @@ namespace DriverReports.WebApi.Controllers
         {
             var users = await _userService.GetUsersAsync(token);
             return Ok(users);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("drivers")]
+        public async Task<IActionResult> GetDrivers(CancellationToken token)
+        {
+            var drivers = await _userService.GetDriversAsync(token);
+
+            return Ok(drivers);
         }
     }
 }

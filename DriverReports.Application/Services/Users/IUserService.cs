@@ -1,9 +1,5 @@
-﻿using DriverReports.Application.DTOs.Reports;
-using DriverReports.Application.DTOs.Users;
+﻿using DriverReports.Application.DTOs.Users;
 using DriverReports.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DriverReports.Application.Services.Users
 {
@@ -14,5 +10,7 @@ namespace DriverReports.Application.Services.Users
              CancellationToken cancellationToken);
 
         Task<IEnumerable<User>> GetUsersAsync(CancellationToken cancellationToken);
+
+        Task<List<UserDto>> GetDriversAsync(CancellationToken token);
     }
 }
