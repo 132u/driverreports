@@ -32,7 +32,12 @@ builder.Services.AddScoped<IDriverFinancialSummaryService,
 builder.Services.AddAutoMapper(
     AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<FinancialCalculator>();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy =
+            System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //builder.Services.AddOpenApi();
 builder.Services.AddScoped<

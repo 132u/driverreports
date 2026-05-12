@@ -41,9 +41,13 @@ namespace DriverReports.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateFinancialOperationRequest request, CancellationToken token)
         {
+            var userId = request.UserId ?? UserId;
+            
             var operationDto = new CreateFinancialOperationDto(request.Date, request.Amount, request.Type, request.Comment);
 
-            var id = await _financialOperationService.CreateAsync(operationDto, UserId, token);
+            var id = await _financialOperationService
+                .CreateAsync(operationDto, userId, token);
+
             return Ok(id);
         }
     }
