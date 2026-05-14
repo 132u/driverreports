@@ -9,7 +9,7 @@ namespace DriverReports.Application.Services.Users
              CreateUserDto request,
              CancellationToken cancellationToken);
 
-        Task<IEnumerable<User>> GetUsersAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<UserDto>> GetUsersAsync(CancellationToken cancellationToken);
 
         Task<List<UserDto>> GetDriversAsync(CancellationToken token);
     }

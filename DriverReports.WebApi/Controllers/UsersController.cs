@@ -27,7 +27,7 @@ namespace DriverReports.WebApi.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(CancellationToken token)
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers(CancellationToken token)
         {
             var users = await _userService.GetUsersAsync(token);
             return Ok(users);

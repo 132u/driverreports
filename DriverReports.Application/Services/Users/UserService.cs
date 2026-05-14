@@ -26,10 +26,17 @@ namespace DriverReports.Application.Services.Users
             return user.Id;
         }
 
-        public Task<IEnumerable<User>> GetUsersAsync(CancellationToken token)
+        public async Task<IEnumerable<UserDto>> GetUsersAsync(CancellationToken token)
         {
-            var result = _userRepository.GetAllAsync(token);
-            return result;
+            var users = await _userRepository.GetAllAsync(token);
+            return users
+                .Select(x => new UserDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Roles = x.Roles,
+                })
+                .ToList();
         }
 
         public async Task<List<UserDto>> GetDriversAsync(CancellationToken token)
