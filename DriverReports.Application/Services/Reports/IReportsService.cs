@@ -16,5 +16,7 @@ namespace DriverReports.Application.Services.Reports
         public Task<IEnumerable<Report>> GetAllAsync(CancellationToken cancellationToken);
 
         public Task<IEnumerable<Report>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken);
+
+        public Task<Report> GetByReportIdAsync(Guid reportId, CancellationToken cancellationToken);
     }
 }

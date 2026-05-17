@@ -55,5 +55,15 @@ namespace DriverReports.WebApi.Controllers
             }
             return Ok(reports);
         }
+
+        [HttpGet("{reportId}")]
+        public async Task<IActionResult> GetReportDetails(
+            Guid reportId,
+            CancellationToken token)
+        {
+            var result = await _reportsService.GetByReportIdAsync(reportId, token);
+
+            return Ok(result);
+        }
     }
 }

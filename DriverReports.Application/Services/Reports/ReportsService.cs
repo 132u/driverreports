@@ -65,6 +65,12 @@ namespace DriverReports.Application.Services.Reports
             var reports = await _reportRepository.GetByUserIdAsync(userId, cancellationToken);
             return reports;
         }
+
+        public async Task<Report> GetByReportIdAsync(Guid reportId, CancellationToken cancellationToken)
+        {
+            var reports = await _reportRepository.GetByIdAsync(reportId, cancellationToken);
+            return reports;
+        }
     }
 }
 

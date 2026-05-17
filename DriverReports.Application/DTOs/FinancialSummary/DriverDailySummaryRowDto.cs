@@ -11,6 +11,7 @@ namespace DriverReports.Application.DTOs.FinancialSummary
     /// </summary>
     public class DriverDailySummaryRowDto
     {
+        public Guid ReportId { get; set; }
         public DateTime Date { get; set; }
 
         public string? ClientName { get; set; }

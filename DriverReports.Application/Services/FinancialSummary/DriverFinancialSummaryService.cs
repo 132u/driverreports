@@ -207,6 +207,7 @@ namespace DriverReports.Application.Services.FinancialSummary
             {
                 rows.Add(new DriverDailySummaryRowDto()
                 {
+                    ReportId = report.Id,
                     Date = report.ReportDate,
                     ClientName = report.ClientName,
                     Cash =
