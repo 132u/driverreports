@@ -51,7 +51,7 @@ namespace DriverReport.Infrastructure.Repositories
 
         public async Task<Report?> GetByIdAsync(Guid id, CancellationToken token)
         {
-            return await _appDbContext.Reports.FirstOrDefaultAsync(report => report.DriverId == id);
+            return await _appDbContext.Reports.FirstOrDefaultAsync(report => report.Id == id);
         }
 
         public async Task UpdateAsync(Report report, CancellationToken token)
