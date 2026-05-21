@@ -56,7 +56,24 @@ namespace DriverReports.WebApi.Controllers
             return Ok(reports);
         }
 
-        [HttpGet("{reportId}")]
+        [Authorize(Roles = "Admin")]
+        [HttpGet("driver/{driverId}")]
+        public async Task<IActionResult> GetByDriverid(
+                        Guid driverId,
+                         [FromQuery] int year,
+            [FromQuery] int month,
+            CancellationToken token)
+        {
+            IEnumerable<Report> reports;
+            
+            reports = await _reportsService.GetMothlyByUserIdAsync(driverId,year, month, token);
+            
+            return Ok(reports);
+        }
+
+
+
+        [HttpGet("details/{reportId}")]
         public async Task<IActionResult> GetReportDetails(
             Guid reportId,
             CancellationToken token)
@@ -64,6 +81,16 @@ namespace DriverReports.WebApi.Controllers
             var result = await _reportsService.GetByReportIdAsync(reportId, token);
 
             return Ok(result);
+        }
+
+        [HttpGet("my")]
+        public async Task<IActionResult> GetMyMonthlyReports(
+            [FromQuery] int year,
+            [FromQuery] int month,
+            CancellationToken token)
+        {
+            var reports = await _reportsService.GetDriverMonthlyReportsListAsync(UserId, year, month, token);
+            return Ok(reports);
         }
     }
 }

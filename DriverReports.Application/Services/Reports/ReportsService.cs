@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DriverReports.Application.DTOs.FinancialSummary;
 using DriverReports.Application.DTOs.Reports;
 using DriverReports.Application.Interfaces;
 using DriverReports.Domain.Entities;
@@ -12,8 +13,8 @@ namespace DriverReports.Application.Services.Reports
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public ReportsService(
-            IUserRepository userRepository, 
-            IReportRepository reportRepository, 
+            IUserRepository userRepository,
+            IReportRepository reportRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
@@ -27,7 +28,8 @@ namespace DriverReports.Application.Services.Reports
         {
             var user = await _userRepository.GetByIdAsync(userId, token);
 
-            if (user == null) {
+            if (user == null)
+            {
                 throw new Exception("no user");
             }
 
@@ -66,10 +68,30 @@ namespace DriverReports.Application.Services.Reports
             return reports;
         }
 
+
+        public async Task<IEnumerable<Report>> GetMothlyByUserIdAsync(Guid userId, int year, int month, CancellationToken cancellationToken)
+        {
+            var reports = await _reportRepository.GetByUserIdAsync(userId, cancellationToken);
+            var rows = reports.Where(r => r.ReportDate.Year == year && r.ReportDate.Month == month).ToList();
+            return rows;
+        }
+
         public async Task<Report> GetByReportIdAsync(Guid reportId, CancellationToken cancellationToken)
         {
             var reports = await _reportRepository.GetByIdAsync(reportId, cancellationToken);
             return reports;
+        }
+
+        public async Task<IEnumerable<Report>> GetDriverMonthlyReportsListAsync(Guid driverId, int year, int month, CancellationToken token)
+        {
+            var reports = await _reportRepository.GetByUserIdAsync(driverId, token);
+            var monthReports = reports.Where(r => r.ReportDate.Year == year && r.ReportDate.Month == month).ToList();
+
+            var rows = monthReports
+            .OrderBy(x => x.ReportDate)
+            .ToList();
+
+            return rows;
         }
     }
 }

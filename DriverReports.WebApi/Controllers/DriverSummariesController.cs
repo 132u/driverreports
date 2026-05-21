@@ -54,8 +54,8 @@ namespace DriverReports.API.Controllers
                     year,
                     month,
                     token);
-
-            return Ok(result);
+            var rows = result.Rows.Where(r => r.ClientName != null || r.Cash != null || r.NonCashWithoutVat != null || r.NonCashWithVat != null);
+            return Ok(rows);
         }
 
         // =====================================================
@@ -120,8 +120,8 @@ namespace DriverReports.API.Controllers
                     year,
                     month,
                     token);
-
-            return Ok(result);
+            var rows = result.Rows.Where(r => r.ClientName != null || r.Cash!= null || r.NonCashWithoutVat!= null || r.NonCashWithVat != null);
+            return Ok(rows);
         }
     }
 }

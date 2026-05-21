@@ -105,6 +105,9 @@ builder.Services.AddCors(options =>
     });
 });
 
+//app.UseCors("AllowFlutter");
+
+
 builder.WebHost.UseUrls("http://0.0.0.0:5288");
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //builder.Services.AddAutoMapper(cfg => { },
@@ -118,7 +121,7 @@ if (app.Environment.IsDevelopment())
     //app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseStaticFiles();
 app.UseAuthentication();
