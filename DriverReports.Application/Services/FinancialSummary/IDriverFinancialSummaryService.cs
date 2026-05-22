@@ -3,7 +3,7 @@ using DriverReports.Application.DTOs.ReportsSummary;
 
 namespace DriverReports.Application.Services.FinancialSummary
 {
-    public interface IDriverFinancialSummaryService
+    public interface ISummaryService
     {
         /// <summary>
         /// Получить итоговые финансовые отчеты водителя по месяцам.
@@ -33,5 +33,6 @@ namespace DriverReports.Application.Services.FinancialSummary
             GetAllDriversMonthlySummaryAsync(
                 int year,
                 CancellationToken token);
+        Task<DriverMonthlySummaryDto> GetSummaryAsync(Guid driverId, int year, int month, CancellationToken token);
     }
 }

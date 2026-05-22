@@ -1,5 +1,4 @@
-﻿using DriverReports.Application.DTOs.FinancialSummary;
-using DriverReports.Application.DTOs.ReportsSummary;
+﻿using DriverReports.Application.DTOs.ReportsSummary;
 
 namespace DriverReports.Application.Services.FinancialSummary
 {
@@ -138,7 +137,7 @@ namespace DriverReports.Application.Services.FinancialSummary
                 NonCashWithoutVat = nonCashWithoutVat,
 
                 Salary = salary,
-                DriverReceived = driverReceived,
+                AlreadyPaidToDriver = driverReceived,
 
                 BaseWorkTotal = baseWork,
                 AdvanceTotal = advance,
@@ -147,7 +146,7 @@ namespace DriverReports.Application.Services.FinancialSummary
 
                 TotalEarned = cash + convertedNonCash,
 
-                RemainingDebt = debt
+                Balance = debt
             };
         }
     }

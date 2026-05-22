@@ -17,12 +17,12 @@ namespace DriverReports.WebApi.Controllers
     {
         private readonly IFinancialOperationService _financialOperationService;
         private readonly IMapper _mapper;
-        private readonly IDriverFinancialSummaryService _summaryService;
+        private readonly ISummaryService _summaryService;
 
         public FinancialOperationsController(
             IFinancialOperationService financialOperationService,
             IMapper mapper,
-            IDriverFinancialSummaryService summaryService)
+            ISummaryService summaryService)
         {
             _summaryService = summaryService;
             _financialOperationService = financialOperationService;

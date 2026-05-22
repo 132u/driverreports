@@ -5,14 +5,14 @@ using DriverReports.Domain.Entities;
 
 namespace DriverReports.Application.Services.FinancialSummary
 {
-    public class FinancialSummaryService : IDriverFinancialSummaryService
+    public class SummaryService : ISummaryService
     {
         private readonly IReportRepository _reportRepository;
         private readonly IFinancialOperationRepository _financialRepository;
         private readonly IUserRepository _userRepository;
         private readonly FinancialCalculator _calculator;
-
-        public FinancialSummaryService(
+            
+        public SummaryService(
             IReportRepository reportRepository,
             IUserRepository userRepository,
             IFinancialOperationRepository financialRepository,
@@ -22,6 +22,87 @@ namespace DriverReports.Application.Services.FinancialSummary
             _userRepository = userRepository;
             _financialRepository = financialRepository;
             _calculator = calculator;
+        }
+
+        public async Task<DriverMonthlySummaryDto>
+    GetSummaryAsync(
+        Guid driverId,
+        int year,
+        int month,
+        CancellationToken token)
+        {
+            var reports =
+                await _reportRepository
+                    .GetByUserIdAsync(driverId, token);
+
+            var operations =
+                await _financialRepository
+                    .GetByUserIdAsync(driverId, token);
+
+            var monthReports = reports
+                .Where(x =>
+                    x.ReportDate.Year == year &&
+                    x.ReportDate.Month == month)
+                .ToList();
+
+            var monthOperations = operations
+                .Where(x =>
+                    x.Date.Year == year &&
+                    x.Date.Month == month)
+                .ToList();
+
+            // =========================
+            // REPORTS
+            // =========================
+
+            var cash = monthReports
+                .Where(x => x.PaymentType == PaymentType.Cash)
+                .Sum(x => x.Price);
+
+            var nonCashWithVat = monthReports
+                .Where(x => x.PaymentType == PaymentType.CashlessWithVAT)
+                .Sum(x => x.Price);
+
+            var nonCashWithoutVat = monthReports
+                .Where(x => x.PaymentType == PaymentType.CashlessWithoutVAT)
+                .Sum(x => x.Price);
+
+            // =========================
+            // OPERATIONS
+            // =========================
+
+            var advance = monthOperations
+                .Where(x => x.Type == FinancialOperationType.Advance)
+                .Sum(x => x.Amount);
+
+            var settlement = monthOperations
+                .Where(x => x.Type == FinancialOperationType.Settlement)
+                .Sum(x => x.Amount);
+
+            var fuel = monthOperations
+                .Where(x => x.Type == FinancialOperationType.FuelExpense)
+                .Sum(x => x.Amount);
+
+            var baseWork = monthOperations
+                .Where(x => x.Type == FinancialOperationType.BaseWorkPayment)
+                .Sum(x => x.Amount);
+
+            // =========================
+            // CALCULATOR
+            // =========================
+
+            return _calculator.BuildMonthlySummary(
+                year,
+                month,
+                driverId,
+                "",
+                cash,
+                nonCashWithVat,
+                nonCashWithoutVat,
+                advance,
+                settlement,
+                baseWork,
+                fuel);
         }
 
         /// Получить итоговые финансовые отчеты всех водителей за год.
@@ -175,7 +256,7 @@ namespace DriverReports.Application.Services.FinancialSummary
 
                     Salary = salary,
 
-                    DriverReceived = driverReceived,
+                    AlreadyPaidToDriver = driverReceived,
 
                     BaseWorkTotal = baseWorkTotal,
 
@@ -185,7 +266,7 @@ namespace DriverReports.Application.Services.FinancialSummary
 
                     SettlementsTotal = settlementTotal,
 
-                    RemainingDebt = debt
+                    Balance = debt
                 });
             }
 
@@ -392,7 +473,7 @@ namespace DriverReports.Application.Services.FinancialSummary
 
                     Salary = salary,
 
-                    DriverReceived = driverReceived,
+                    AlreadyPaidToDriver = driverReceived,
 
                     BaseWorkTotal = baseWorkTotal,
 
@@ -402,7 +483,7 @@ namespace DriverReports.Application.Services.FinancialSummary
 
                     SettlementsTotal = settlementTotal,
 
-                    RemainingDebt = debt
+                    Balance = debt
                 });
             }
 

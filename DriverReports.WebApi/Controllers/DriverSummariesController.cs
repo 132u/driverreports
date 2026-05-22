@@ -10,10 +10,10 @@ namespace DriverReports.API.Controllers
     [Route("api/driver-summaries")]
     public class DriverSummariesController : BaseController
     {
-        private readonly IDriverFinancialSummaryService _summaryService;
+        private readonly ISummaryService _summaryService;
 
         public DriverSummariesController(
-            IDriverFinancialSummaryService summaryService)
+            ISummaryService summaryService)
         {
             _summaryService = summaryService;
         }

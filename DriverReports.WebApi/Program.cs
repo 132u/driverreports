@@ -27,11 +27,12 @@ builder.Services.AddScoped<IReportsService, ReportsService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
-builder.Services.AddScoped<IDriverFinancialSummaryService,
-    DriverFinancialSummaryService>();
+//builder.Services.AddScoped<ISummaryService,
+//    DriverFinancialSummaryService>();
 builder.Services.AddAutoMapper(
     AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<FinancialCalculator>();
+builder.Services.AddScoped<ISummaryService, SummaryService>();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

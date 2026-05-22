@@ -60,6 +60,7 @@ namespace DriverReports.Application.Services.FinancialOperation
         {
             var reports = await _financialOpertationRepository.GetByUserIdAsync(userId, cancellationToken);
             var rows = reports.Where(r => r.Date.Year == year && r.Date.Month == month);
+            var t =  _mapper.Map<IEnumerable<FinancialOperationDto>>(rows);
             return _mapper.Map<IEnumerable<FinancialOperationDto>>(rows);
         }
     }

@@ -46,7 +46,7 @@ namespace DriverReports.Application.DTOs.ReportsSummary
         /// <summary>
         /// Сколько водитель уже получил
         /// </summary>
-        public decimal DriverReceived { get; set; }
+        public decimal AlreadyPaidToDriver { get; set; }
 
         /// <summary>
         /// Работа на базе
@@ -73,6 +73,6 @@ namespace DriverReports.Application.DTOs.ReportsSummary
         /// > 0  -> Виктор должен водителю
         /// < 0  -> водитель должен Виктору
         /// </summary>
-        public decimal RemainingDebt { get; set; }
+        public decimal Balance { get; set; }
     }
 }
