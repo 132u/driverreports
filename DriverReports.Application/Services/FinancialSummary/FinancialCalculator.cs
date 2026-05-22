@@ -100,7 +100,6 @@ namespace DriverReports.Application.Services.FinancialSummary
             int year,
             int month,
             Guid driverId,
-            string driverName,
 
             decimal cash,
             decimal nonCashWithVat,

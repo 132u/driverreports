@@ -95,7 +95,6 @@ namespace DriverReports.Application.Services.FinancialSummary
                 year,
                 month,
                 driverId,
-                "",
                 cash,
                 nonCashWithVat,
                 nonCashWithoutVat,
