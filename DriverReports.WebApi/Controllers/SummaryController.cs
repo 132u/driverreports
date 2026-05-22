@@ -35,21 +35,18 @@ namespace DriverReports.API.Controllers
 
         [HttpGet("my")]
         public async Task<IActionResult> GetMySummary(
-    int year,
-    int month,
+    [FromQuery] int year,
+            [FromQuery] int month,
     CancellationToken token)
         {
-            return Ok();
-            //var userId = User.GetUserId();
+            var result =
+               await _service.GetSummaryAsync(
+                   UserId,
+                   year,
+                   month,
+                   token);
 
-            //var result = await _service
-            //    .GetMonthlySummaryAsync(
-            //        UserId,
-            //        year,
-            //        month,
-            //        token);
-
-            //return Ok(result);
+            return Ok(result);
         }
     }
 }
