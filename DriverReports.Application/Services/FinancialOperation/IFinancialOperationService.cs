@@ -13,6 +13,6 @@ namespace DriverReports.Application.Services.FinancialOperation
         Task<IEnumerable<FinancialOperationDto>> GetAllAsync(CancellationToken cancellationToken);
 
         Task<IEnumerable<FinancialOperationDto>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken);
-
+        Task<IEnumerable<FinancialOperationDto>> GetMothlyByUserIdAsync(Guid userId, int year, int month, CancellationToken cancellationToken);
     }
 }

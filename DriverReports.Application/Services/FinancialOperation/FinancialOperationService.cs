@@ -55,5 +55,12 @@ namespace DriverReports.Application.Services.FinancialOperation
             var operations = await _financialOpertationRepository.GetByUserIdAsync(userId, cancellationToken);
             return _mapper.Map<IEnumerable<FinancialOperationDto>>(operations);
         }
+
+        public async Task<IEnumerable<FinancialOperationDto>> GetMothlyByUserIdAsync(Guid userId, int year, int month, CancellationToken cancellationToken)
+        {
+            var reports = await _financialOpertationRepository.GetByUserIdAsync(userId, cancellationToken);
+            var rows = reports.Where(r => r.Date.Year == year && r.Date.Month == month);
+            return _mapper.Map<IEnumerable<FinancialOperationDto>>(rows);
+        }
     }
 }

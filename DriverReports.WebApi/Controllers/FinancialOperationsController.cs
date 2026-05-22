@@ -2,6 +2,7 @@
 using DriverReports.Application.DTOs.FinancialOperation;
 using DriverReports.Application.Services.FinancialOperation;
 using DriverReports.Application.Services.FinancialSummary;
+using DriverReports.Domain.Entities;
 using DriverReports.WebApi.Contracts.FinancialOperation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -87,14 +88,13 @@ namespace DriverReports.WebApi.Controllers
             [FromQuery] int month,
             CancellationToken token)
         {
-            var result = await _summaryService
-                .GetDriverMonthlyDetailsAsync(
+            var result = await _financialOperationService.GetMothlyByUserIdAsync(
                     driverId,
                     year,
                     month,
                     token);
-            var rows = result.Rows.Where(r => r.Advance != null || r.Fuel != null || r.BaseWork != null);
-            return Ok(rows);
+            //var rows = result.Where(r => r.Advance != null || r.Fuel != null || r.BaseWork != null);
+            return Ok(result);
         }
     }
 }
