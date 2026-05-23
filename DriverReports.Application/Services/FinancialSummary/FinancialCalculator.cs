@@ -108,7 +108,9 @@ namespace DriverReports.Application.Services.FinancialSummary
             decimal advance,
             decimal settlement,
             decimal baseWork,
-            decimal fuel)
+            decimal fuel,
+            decimal driverMoney,
+            decimal viktorMoney)
         {
             var convertedNonCash =
                 CalculateTotalConvertedNonCash(nonCashWithVat, nonCashWithoutVat);
@@ -116,7 +118,7 @@ namespace DriverReports.Application.Services.FinancialSummary
             var salary = CalculateSalary(cash, convertedNonCash);
 
             var driverReceived = CalculateDriverReceived(
-                cash,
+                driverMoney,
                 advance,
                 fuel,
                 settlement,

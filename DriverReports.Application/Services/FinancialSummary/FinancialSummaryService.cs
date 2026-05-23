@@ -54,10 +54,15 @@ namespace DriverReports.Application.Services.FinancialSummary
             // =========================
             // REPORTS
             // =========================
+            var monthReportsFilter = monthReports
+                            .Where(x => x.PaymentType == PaymentType.Cash);
 
-            var cash = monthReports
-                .Where(x => x.PaymentType == PaymentType.Cash)
+
+            var cash = monthReportsFilter
                 .Sum(x => x.Price);
+
+            var driverMoney = monthReportsFilter.Where(r=>r.MoneyHolder == MoneyHolder.Driver).Sum(x => x.Price);
+            var viktorMoney = monthReportsFilter.Where(r => r.MoneyHolder == MoneyHolder.Victor).Sum(x => x.Price);
 
             var nonCashWithVat = monthReports
                 .Where(x => x.PaymentType == PaymentType.CashlessWithVAT)
@@ -101,7 +106,9 @@ namespace DriverReports.Application.Services.FinancialSummary
                 advance,
                 settlement,
                 baseWork,
-                fuel);
+                fuel,
+                driverMoney,
+                viktorMoney);
         }
 
         /// Получить итоговые финансовые отчеты всех водителей за год.
