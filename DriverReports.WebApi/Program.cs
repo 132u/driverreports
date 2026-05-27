@@ -7,7 +7,6 @@ using DriverReports.Application.Services.FinancialSummary;
 using DriverReports.Application.Services.Reports;
 using DriverReports.Application.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-//using DriverReports.WebApi.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -27,8 +26,7 @@ builder.Services.AddScoped<IReportsService, ReportsService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
-//builder.Services.AddScoped<ISummaryService,
-//    DriverFinancialSummaryService>();
+
 builder.Services.AddAutoMapper(
     AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<FinancialCalculator>();
@@ -39,43 +37,15 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNamingPolicy =
             System.Text.Json.JsonNamingPolicy.CamelCase;
     });
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
+
 builder.Services.AddScoped<
     IFinancialOperationService,
     FinancialOperationsService>();
-// 🔹 5. Swagger
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddSwaggerGen(c =>
-//{
-//    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-//    {
-//        Name = "Authorization",
-//        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-//        Scheme = "bearer",
-//        BearerFormat = "JWT",
-//        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-//        Description = "Вставь: Bearer {token}"
-//    });
 
-//    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-//    {
-//        {
-//            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-//            {
-//                Reference = new Microsoft.OpenApi.Models.OpenApiReference
-//                {
-//                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-//                    Id = "Bearer"
-//                }
-//            },
-//            Array.Empty<string>()
-//        }
-//    });
-//});
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-//var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -105,24 +75,16 @@ builder.Services.AddCors(options =>
               .AllowAnyOrigin();
     });
 });
-
-//app.UseCors("AllowFlutter");
-
-
 builder.WebHost.UseUrls("http://0.0.0.0:5288");
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-//builder.Services.AddAutoMapper(cfg => { },
-//    typeof(ReportMappingProfile).Assembly);
 var app = builder.Build();
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    //app.MapOpenApi();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
 }
+app.UseSwagger();
+app.UseSwaggerUI();
 
-//app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseStaticFiles();
 app.UseAuthentication();
