@@ -95,7 +95,7 @@ public class Report
         List<string> imagePath)
     {
         var error = string.Empty;
-        if (string.IsNullOrEmpty(description) || price <= 0 || reportDate> DateTime.Now)
+        if (string.IsNullOrEmpty(description) || price <= 0 || reportDate.Date > DateTime.Today)
         {
             error = "Описание пустое или дата в будущем или цена невалидная";
         }
