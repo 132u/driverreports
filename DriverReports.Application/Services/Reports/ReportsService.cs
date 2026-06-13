@@ -24,18 +24,38 @@ namespace DriverReports.Application.Services.Reports
             _mapper = mapper;
         }
 
-        public async Task<Guid> CreateAsync(CreateReportDto request, Guid userId, CancellationToken token)
+        public async Task<Guid> CreateAsync(
+            CreateReportDto request,
+            Guid userId,
+            CancellationToken token)
         {
-            var user = await _userRepository.GetByIdAsync(userId, token);
+            var currentUser = await _userRepository.GetByIdAsync(userId, token);
 
-            if (user == null)
+            if (currentUser == null)
             {
-                throw new Exception("no user");
+                throw new Exception("User not found");
+            }
+
+            var reportDriverId = userId;
+            var reportDriverName = currentUser.Name;
+
+            if (currentUser.Roles == UserRole.Admin && request.DriverId.HasValue)
+            {
+                var driver = await _userRepository
+                    .GetByIdAsync(request.DriverId.Value, token);
+
+                if (driver == null)
+                {
+                    throw new Exception("Driver not found");
+                }
+
+                reportDriverId = driver.Id;
+                reportDriverName = driver.Name;
             }
 
             var (report, error) = Report.Create(
-                userId,
-                user.Name,
+                reportDriverId,
+                reportDriverName,
                 request.ReportDate,
                 request.Price,
                 request.MoneyHolder,
@@ -43,7 +63,6 @@ namespace DriverReports.Application.Services.Reports
                 request.Description,
                 request.PaymentType,
                 request.ImagePaths);
-
 
             if (!string.IsNullOrEmpty(error))
             {

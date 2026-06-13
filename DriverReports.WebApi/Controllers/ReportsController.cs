@@ -27,6 +27,7 @@ namespace DriverReports.WebApi.Controllers
         public async Task<ActionResult> Create(CreateReportRequest request, CancellationToken token)
         {
             var dto = new CreateReportDto(
+                request.DriverId,
                 request.ReportDate,
                 request.Price,
                 request.MoneyHolder,

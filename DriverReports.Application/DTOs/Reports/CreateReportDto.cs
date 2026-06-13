@@ -3,6 +3,7 @@
 namespace DriverReports.Application.DTOs.Reports
 {
     public record CreateReportDto(
+        Guid? DriverId,
         DateTime ReportDate, 
         decimal Price, 
         MoneyHolder MoneyHolder, 

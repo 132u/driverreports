@@ -66,5 +66,15 @@ namespace DriverReport.Infrastructure.Repositories
                     .SetProperty(p => p.Description, report.Description)
                     .SetProperty(p => p.PaymentType, report.PaymentType));
         }
+
+        public async Task<decimal> GetCashlessWithVatTotalAsync(int month, int year)
+        {
+            return await _appDbContext.Reports
+                .Where(x =>
+                    x.PaymentType == PaymentType.CashlessWithVAT &&
+                    x.ReportDate.Month == month &&
+                    x.ReportDate.Year == year)
+                .SumAsync(x => x.Price);
+        }
     }
 }

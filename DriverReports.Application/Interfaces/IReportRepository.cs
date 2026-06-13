@@ -9,6 +9,8 @@ namespace DriverReports.Application.Interfaces
         Task<IEnumerable<Report>> GetAllAsync(CancellationToken token);
         Task<IEnumerable<Report>> GetByUserIdAsync(Guid driverId, CancellationToken token);
         Task<Guid> AddAsync(Report report, CancellationToken token);
+
+        Task<decimal> GetCashlessWithVatTotalAsync(int month, int year);
         //Task<Guid> UpdateAsync(Report report, CancellationToken token);
         //Task DeleteAsync(Guid id, CancellationToken token);
     }

@@ -24,6 +24,12 @@ namespace DriverReports.Application.Services.FinancialSummary
             _calculator = calculator;
         }
 
+        public async Task<decimal> GetCashlessWithVatTotalAsync(int month, int year)
+        {
+            return await _reportRepository
+                .GetCashlessWithVatTotalAsync(month, year);
+        }
+
         public async Task<DriverMonthlySummaryDto>
     GetSummaryAsync(
         Guid driverId,
