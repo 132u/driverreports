@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
     public DbSet<Report> Reports { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<FinancialOperation> FinancialOperations { get; set; }
+    public DbSet<Invoice> Invoices{ get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
