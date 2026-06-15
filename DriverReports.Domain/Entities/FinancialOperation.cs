@@ -51,12 +51,12 @@
         {
             if (amount <= 0)
             {
-                return (null, "Amount must be greater than 0");
+                return (null, "Сумма должна быть больше 0");
             }
 
             if (date > DateTime.UtcNow)
             {
-                return (null, "Date cannot be in the future");
+                return (null, "Дата не может быть в будущем");
             }
 
             var operation = new FinancialOperation(

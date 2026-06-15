@@ -4,8 +4,10 @@ using DriverReports.Application.Interfaces;
 using DriverReports.Application.Services.Auth;
 using DriverReports.Application.Services.FinancialOperation;
 using DriverReports.Application.Services.FinancialSummary;
+using DriverReports.Application.Services.Invoice;
 using DriverReports.Application.Services.Reports;
 using DriverReports.Application.Services.Users;
+using DriverReports.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,9 +22,11 @@ builder.Services.AddDbContext<AppDbContext>(
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFinancialOperationRepository, FinancialOperationRepository>();
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 
 // 🔹 3. Services (Application)
 builder.Services.AddScoped<IReportsService, ReportsService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
