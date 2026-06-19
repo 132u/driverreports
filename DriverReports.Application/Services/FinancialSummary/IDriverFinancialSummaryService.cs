@@ -5,7 +5,9 @@ namespace DriverReports.Application.Services.FinancialSummary
 {
     public interface ISummaryService
     {
-        Task<decimal> GetCashlessWithVatTotalAsync(int month, int year);
+        decimal CalculateCashlessVATBalance(decimal cashlessVATAmount, decimal invoicesAmount, CancellationToken token);
+        Task<decimal> GetTotalInvoicesAmountAsync(int month, int year, CancellationToken token);
+        Task<decimal> GetCashlessWithVatTotalAsync(int month, int year, CancellationToken token);
 
         /// <summary>
         /// Получить итоговые финансовые отчеты водителя по месяцам.

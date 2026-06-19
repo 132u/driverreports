@@ -19,6 +19,7 @@ namespace DriverReports.Application.Services.Reports
 
         public Task<Report> GetByReportIdAsync(Guid reportId, CancellationToken cancellationToken);
         public Task<IEnumerable<Report>> GetDriverMonthlyReportsListAsync(Guid driverId, int year, int month, CancellationToken token);
+        public Task<IEnumerable<Report>> GetCommonCashlessWithVATMothlyAsync(int year, int month, CancellationToken token);
         Task<IEnumerable<Report>> GetMothlyByUserIdAsync(Guid userId, int year, int month, CancellationToken cancellationToken);
     }
 }

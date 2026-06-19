@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DriverReport.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260614063440_AddInvoices")]
+    [Migration("20260616064059_AddInvoices")]
     partial class AddInvoices
     {
         /// <inheritdoc />

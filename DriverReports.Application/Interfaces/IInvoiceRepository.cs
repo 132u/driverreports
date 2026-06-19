@@ -6,5 +6,7 @@ namespace DriverReports.Application.Interfaces
     {
         Task<IEnumerable<Invoice>> GetAllAsync(int year, int month, CancellationToken token);
         Task<Guid> AddAsync(Invoice invoice, CancellationToken token);
+        Task<decimal> GetTotalInvoicesAmountAsync(int year, int month, CancellationToken token);
+
     }
 }

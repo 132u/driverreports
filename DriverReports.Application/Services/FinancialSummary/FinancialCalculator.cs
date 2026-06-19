@@ -26,6 +26,13 @@ namespace DriverReports.Application.Services.FinancialSummary
             return amount * 0.9m;
         }
 
+        public decimal CalculateCashlessVATBalance(
+            decimal cashlessVATAmount,
+            decimal invoicesAmount)
+        {
+            return cashlessVATAmount - invoicesAmount;
+        }
+
         /// <summary>
         /// Общий безнал после конвертации
         /// </summary>

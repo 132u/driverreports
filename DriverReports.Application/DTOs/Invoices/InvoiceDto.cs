@@ -12,4 +12,10 @@ namespace DriverReports.Application.DTOs.Invoices
         DateTime InvoiceDate,
         string? Comment
     );
+    public record InvoicesSummaryDto
+    (
+        decimal CashlessVatAmount,
+        decimal InvoicesAmount,
+        decimal Balance
+    );
 }

@@ -95,6 +95,13 @@ namespace DriverReports.Application.Services.Reports
             return rows;
         }
 
+        public async Task<IEnumerable<Report>> GetCommonCashlessWithVATMothlyAsync(int year, int month, CancellationToken cancellationToken)
+        {
+            var reports = await _reportRepository.GetAllAsync(cancellationToken);
+            var rows = reports.Where(r => r.ReportDate.Year == year && r.ReportDate.Month == month && r.PaymentType == PaymentType.CashlessWithVAT).ToList();
+            return rows;
+        }
+
         public async Task<Report> GetByReportIdAsync(Guid reportId, CancellationToken cancellationToken)
         {
             var reports = await _reportRepository.GetByIdAsync(reportId, cancellationToken);

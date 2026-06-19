@@ -67,7 +67,7 @@ namespace DriverReport.Infrastructure.Repositories
                     .SetProperty(p => p.PaymentType, report.PaymentType));
         }
 
-        public async Task<decimal> GetCashlessWithVatTotalAsync(int month, int year)
+        public async Task<decimal> GetCashlessWithVatTotalAsync(int year, int month, CancellationToken token)
         {
             return await _appDbContext.Reports
                 .Where(x =>

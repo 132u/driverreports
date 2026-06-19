@@ -20,7 +20,26 @@ namespace DriverReports.Infrastructure.Repositories
 
         public async Task<IEnumerable<Invoice>> GetAllAsync(int year, int month, CancellationToken token)
         {
-            return await _appDbContext.Invoices.AsNoTracking().ToListAsync();
+            return await _appDbContext
+                .Invoices
+                .Where(i => i.InvoiceDate.Year == year && i.InvoiceDate.Month == month)
+                .AsNoTracking().ToListAsync();
+        }
+
+        public async Task<decimal> GetTotalInvoicesAmountAsync(int year, int month, CancellationToken token)
+        {
+            return await _appDbContext
+                .Invoices
+                .Where(i => i.InvoiceDate.Year == year && i.InvoiceDate.Month == month)
+                .SumAsync(i => i.Amount);
+
+            //    var query = _appDbContext.Invoices
+            //.Where(i => i.InvoiceDate.Year == year &&
+            //            i.InvoiceDate.Month == month);
+            //    var s= query.ToQueryString();
+            //    Console.WriteLine(query.ToQueryString());
+
+            //    return await query.SumAsync(i => i.Amount, token);
         }
 
         public async Task UpdateAsync(Invoice invoice, CancellationToken token)

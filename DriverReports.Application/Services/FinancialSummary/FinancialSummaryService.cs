@@ -10,32 +10,28 @@ namespace DriverReports.Application.Services.FinancialSummary
         private readonly IReportRepository _reportRepository;
         private readonly IFinancialOperationRepository _financialRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IInvoiceRepository _invoiceRepository;
         private readonly FinancialCalculator _calculator;
             
         public SummaryService(
             IReportRepository reportRepository,
             IUserRepository userRepository,
             IFinancialOperationRepository financialRepository,
+            IInvoiceRepository invoiceRepository,
             FinancialCalculator calculator)
         {
             _reportRepository = reportRepository;
             _userRepository = userRepository;
+            _invoiceRepository = invoiceRepository;
             _financialRepository = financialRepository;
             _calculator = calculator;
         }
 
-        public async Task<decimal> GetCashlessWithVatTotalAsync(int month, int year)
-        {
-            return await _reportRepository
-                .GetCashlessWithVatTotalAsync(month, year);
-        }
-
-        public async Task<DriverMonthlySummaryDto>
-    GetSummaryAsync(
-        Guid driverId,
-        int year,
-        int month,
-        CancellationToken token)
+         public async Task<DriverMonthlySummaryDto> GetSummaryAsync(
+            Guid driverId,
+            int year,
+            int month,
+            CancellationToken token)
         {
             var reports =
                 await _reportRepository
@@ -350,10 +346,7 @@ namespace DriverReports.Application.Services.FinancialSummary
         /// <summary>
         /// Получить итоговые финансовые отчеты водителя по месяцам.
         /// Одна строка = один месяц.
-        public async Task<List<DriverMonthlySummaryDto>>
-    GetDriverMonthlySummaryAsync(
-        Guid driverId,
-        CancellationToken token)
+        public async Task<List<DriverMonthlySummaryDto>> GetDriverMonthlySummaryAsync(Guid driverId, CancellationToken token)
         {
             // ---------------------------------
             // Reports
@@ -500,6 +493,21 @@ namespace DriverReports.Application.Services.FinancialSummary
             }
 
             return result;
+        }
+
+        public async Task<decimal> GetCashlessWithVatTotalAsync(int year, int month, CancellationToken token)
+        {
+            return await _reportRepository.GetCashlessWithVatTotalAsync(year, month, token);
+        }
+
+        public async Task<decimal> GetTotalInvoicesAmountAsync(int year, int month, CancellationToken token)
+        {
+            return await _invoiceRepository.GetTotalInvoicesAmountAsync(year, month, token);
+        }
+
+        public decimal CalculateCashlessVATBalance(decimal cashlessVATAmount, decimal invoicesAmount, CancellationToken token)
+        {
+            return _calculator.CalculateCashlessVATBalance(cashlessVATAmount, invoicesAmount);
         }
     }
 }

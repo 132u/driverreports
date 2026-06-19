@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace DriverReports.Domain.Entities
+﻿namespace DriverReports.Domain.Entities
 {
     public class Invoice
     {
@@ -17,7 +10,7 @@ namespace DriverReports.Domain.Entities
         public DateTime CreatedDate { get; private set; }
         public string? Comment { get; set; }
 
-        private Invoice(
+        public Invoice(
            decimal amount,
            DateTime invoiceDate,
            DateTime createdDate,

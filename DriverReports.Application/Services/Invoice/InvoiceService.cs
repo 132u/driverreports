@@ -6,15 +6,18 @@ namespace DriverReports.Application.Services.Invoice
 {
     public class InvoiceService : IInvoiceService
     {
+        private readonly IReportRepository _reportRepository;
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public InvoiceService(
             IInvoiceRepository invoiceRepository,
+            IReportRepository reportRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             _invoiceRepository = invoiceRepository;
+            _reportRepository = reportRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
