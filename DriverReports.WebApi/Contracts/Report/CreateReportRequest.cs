@@ -6,7 +6,7 @@ using System.Text;
 namespace DriverReports.WebApi.Contracts.Report
 {
     public record CreateReportRequest(
-        Guid DriverId,
+        Guid? DriverId,
         DateTime ReportDate, 
         decimal Price, 
         MoneyHolder MoneyHolder, 

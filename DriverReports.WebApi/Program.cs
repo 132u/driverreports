@@ -11,6 +11,7 @@ using DriverReports.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,7 +48,15 @@ builder.Services.AddScoped<
     FinancialOperationsService>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Driver Reports API",
+        Version = "1.0.1",
+        Description = "Deploy 2026-06-21"
+    });
+});
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
