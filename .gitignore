@@ -6,6 +6,7 @@ publish/
 *.user
 *.suo
 *.sln.docstates
+wwwroot/uploads/**
 
 # VS Code
 .vscode/
