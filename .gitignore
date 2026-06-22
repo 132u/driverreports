@@ -6,7 +6,7 @@ publish/
 *.user
 *.suo
 *.sln.docstates
-wwwroot/uploads/**
+DriverReports.WebApi/wwwroot/uploads/
 
 # VS Code
 .vscode/
