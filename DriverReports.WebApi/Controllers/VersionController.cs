@@ -11,9 +11,9 @@ public class VersionController : ControllerBase
     {
         return Ok(new
         {
-            version = "2.0.0",
+            version = "2.0.1",
             buildDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
-            commit = "driver id nullable fix"
+            commit = "gitignore fixed"
         });
     }
 }
