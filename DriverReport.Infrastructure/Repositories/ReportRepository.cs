@@ -54,17 +54,14 @@ namespace DriverReport.Infrastructure.Repositories
             return await _appDbContext.Reports.FirstOrDefaultAsync(report => report.Id == id);
         }
 
-        public async Task UpdateAsync(Report report, CancellationToken token)
+        public async Task DeleteAsync(Guid id, CancellationToken token)
         {
-            await _appDbContext.Reports.Where(r=>r.Id==report.Id)
-                .ExecuteUpdateAsync(s =>
-                   s.SetProperty(p=>p.DriverId , report.DriverId)
-                    .SetProperty(p=>p.CreatedDate, report.CreatedDate)
-                    .SetProperty(p=>p.UpdatedDate, report.UpdatedDate)
-                    .SetProperty(p=>p.ReportDate, report.ReportDate)
-                    .SetProperty(p => p.Price, report.Price)
-                    .SetProperty(p => p.Description, report.Description)
-                    .SetProperty(p => p.PaymentType, report.PaymentType));
+            var affectedRows = await _appDbContext.Reports.Where(r => r.Id == id).ExecuteDeleteAsync();
+            if (affectedRows == 0)
+            {
+                throw new KeyNotFoundException(
+                    $"Report {id} not found");
+            }
         }
 
         public async Task<decimal> GetCashlessWithVatTotalAsync(int year, int month, CancellationToken token)

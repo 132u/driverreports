@@ -41,6 +41,33 @@ namespace DriverReports.WebApi.Controllers
             return Ok(id);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, UpdateReportRequest request, CancellationToken token)
+        {
+            var dto = new UpdateReportDto(
+                request.DriverId,
+                request.ReportDate,
+                request.Price,
+                request.MoneyHolder,
+                request.ClientName,
+                request.Description,
+                request.PaymentType,
+                request.ImagePaths
+             );
+       
+            await _reportsService.UpdateAsync(dto, id, token);
+            return Ok();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken token)
+        {
+            await _reportsService.DeleteAsync(id, token);
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get(CancellationToken token)
         {
@@ -73,8 +100,6 @@ namespace DriverReports.WebApi.Controllers
             return Ok(reports);
         }
 
-
-
         [HttpGet("details/{reportId}")]
         public async Task<IActionResult> GetReportDetails(
             Guid reportId,
@@ -94,5 +119,7 @@ namespace DriverReports.WebApi.Controllers
             var reports = await _reportsService.GetDriverMonthlyReportsListAsync(UserId, year, month, token);
             return Ok(reports);
         }
+
+
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DriverReports.Application.DTOs.FinancialSummary;
 using DriverReports.Application.DTOs.Reports;
 using DriverReports.Application.Interfaces;
 using DriverReports.Domain.Entities;
@@ -22,6 +21,38 @@ namespace DriverReports.Application.Services.Reports
             _reportRepository = reportRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+        }
+
+        public async Task UpdateAsync(
+            UpdateReportDto request,
+            Guid id,
+            CancellationToken token)
+        {
+            var report = await _reportRepository.GetByIdAsync(id, token);
+
+            if (report == null)
+            {
+                throw new KeyNotFoundException("Report not found");
+            }
+
+            report.Update(
+                   request.ReportDate,
+                   request.Price,
+                   request.MoneyHolder,
+                   request.ClientName,
+                   request.Description,
+                   request.PaymentType,
+                   request.ImagePaths
+               );
+
+            await _unitOfWork.SaveChangesAsync(token);
+        }
+
+        public async Task DeleteAsync(
+            Guid id,
+            CancellationToken token)
+        {
+            await _reportRepository.DeleteAsync(id, token);
         }
 
         public async Task<Guid> CreateAsync(

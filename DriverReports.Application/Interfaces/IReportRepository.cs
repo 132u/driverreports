@@ -11,7 +11,6 @@ namespace DriverReports.Application.Interfaces
         Task<Guid> AddAsync(Report report, CancellationToken token);
 
         Task<decimal> GetCashlessWithVatTotalAsync(int month, int year, CancellationToken token);
-        //Task<Guid> UpdateAsync(Report report, CancellationToken token);
-        //Task DeleteAsync(Guid id, CancellationToken token);
+        Task DeleteAsync(Guid id, CancellationToken token);
     }
 }
