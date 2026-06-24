@@ -63,8 +63,10 @@
                 userId,
                 amount,
                 type,
-                date.ToUniversalTime(),
-                DateTime.UtcNow, // createdDate
+                DateTime.SpecifyKind(
+    date.Date,
+    DateTimeKind.Utc),
+            DateTime.UtcNow, // createdDate
                 comment
             );
 
