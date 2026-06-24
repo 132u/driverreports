@@ -14,5 +14,8 @@ namespace DriverReports.Application.Services.FinancialOperation
 
         Task<IEnumerable<FinancialOperationDto>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken);
         Task<IEnumerable<FinancialOperationDto>> GetMothlyByUserIdAsync(Guid userId, int year, int month, CancellationToken cancellationToken);
+
+        Task UpdateAsync(Guid id, UpdateFinancialOperationDto request, CancellationToken token);
+        Task DeleteAsync(Guid id, CancellationToken token);
     }
 }

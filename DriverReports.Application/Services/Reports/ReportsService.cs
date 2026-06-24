@@ -45,22 +45,23 @@ namespace DriverReports.Application.Services.Reports
                    request.PaymentType,
                    request.ImagePaths
                );
-
-            Console.WriteLine($"ReportDate = {report.ReportDate}, Kind = {report.ReportDate.Kind}");
-            Console.WriteLine($"CreatedDate = {report.CreatedDate}, Kind = {report.CreatedDate.Kind}");
-            Console.WriteLine($"UpdatedDate = {report.UpdatedDate}, Kind = {report.UpdatedDate.Kind}");
-            Console.WriteLine(JsonSerializer.Serialize(new
+            if (request.DriverId.HasValue)
             {
-                ReportDate = report.ReportDate.Kind,
-                CreatedDate = report.CreatedDate.Kind,
-                UpdatedDate = report.UpdatedDate.Kind
-            }));
-    //        throw new Exception(
-    //$"ReportDate={report.ReportDate.Kind}; " +
-    //$"CreatedDate={report.CreatedDate.Kind}; " +
-    //$"UpdatedDate={report.UpdatedDate.Kind}");
+                var driver = await _userRepository.GetByIdAsync(
+                    request.DriverId.Value,
+                    token);
 
-             await _unitOfWork.SaveChangesAsync(token);
+                if (driver == null)
+                {
+                    throw new Exception("Driver not found");
+                }
+
+                report.ChangeDriver(
+                    driver.Id,
+                    driver.Name);
+            }
+
+            await _unitOfWork.SaveChangesAsync(token);
         }
 
         public async Task DeleteAsync(

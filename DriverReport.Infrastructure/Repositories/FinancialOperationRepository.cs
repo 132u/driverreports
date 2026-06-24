@@ -1,4 +1,5 @@
-﻿using DriverReports.Application.Interfaces;
+﻿using DriverReports.Application.DTOs.FinancialOperations;
+using DriverReports.Application.Interfaces;
 using DriverReports.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,9 +34,18 @@ namespace DriverReport.Infrastructure.Repositories
             return await _appDbContext.FinancialOperations.AsNoTracking().Where(f => f.UserId == id).ToListAsync();
         }
 
-        public async Task UpdateAsync(FinancialOperation operation, CancellationToken token)
+        public async Task UpdateAsync(Guid id, UpdateFinancialOperationDto request, CancellationToken token)
         {
-            throw new NotImplementedException();
+        }
+
+        public async Task DeleteAsync(Guid id, CancellationToken token)
+        {
+            var affectedRows = await _appDbContext.FinancialOperations.Where(r => r.Id == id).ExecuteDeleteAsync();
+            if (affectedRows == 0)
+            {
+                throw new KeyNotFoundException(
+                    $"Financial Operation {id} not found");
+            }
         }
     }
 }

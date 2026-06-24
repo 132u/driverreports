@@ -60,6 +60,13 @@ public class Report
         ImagePaths = imagePaths ?? new List<string>();
         ApplyPaymentRules(paymentType, moneyHolder);
     }
+    public void ChangeDriver(
+    Guid driverId,
+    string driverName)
+    {
+        DriverId = driverId;
+        DriverName = driverName;
+    }
 
     public void Update(
         DateTime reportDate, 

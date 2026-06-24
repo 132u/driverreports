@@ -70,5 +70,29 @@
 
             return (operation, string.Empty);
         }
+        public void Update(
+    Guid? userId,
+    DateTime date,
+    decimal amount,
+    string? comment)
+        {
+            if (amount <= 0)
+            {
+                throw new InvalidOperationException(
+                    "Amount must be greater than zero");
+            }
+
+            if (userId.HasValue)
+            {
+                UserId = userId.Value;
+            }
+
+            Date = DateTime.SpecifyKind(
+                date.Date,
+                DateTimeKind.Utc);
+
+            Amount = amount;
+            Comment = comment;
+        }
     }
 }

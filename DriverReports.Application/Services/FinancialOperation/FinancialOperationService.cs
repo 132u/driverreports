@@ -63,5 +63,37 @@ namespace DriverReports.Application.Services.FinancialOperation
             var t =  _mapper.Map<IEnumerable<FinancialOperationDto>>(rows);
             return _mapper.Map<IEnumerable<FinancialOperationDto>>(rows);
         }
+        public async Task DeleteAsync(
+    Guid id,
+    CancellationToken token)
+        {
+            await _financialOpertationRepository
+                .DeleteAsync(id, token);
+
+            await _unitOfWork.SaveChangesAsync(token);
+        }
+
+        public async Task UpdateAsync(
+    Guid id,
+    UpdateFinancialOperationDto request,
+    CancellationToken token)
+        {
+            var operation = await _financialOpertationRepository
+                .GetByIdAsync(id, token);
+
+            if (operation == null)
+            {
+                throw new KeyNotFoundException("Operation not found");
+            }
+
+            operation.Update(
+                request.UserId,
+                request.Date,
+                request.Amount,
+                request.Comment
+            );
+
+            await _unitOfWork.SaveChangesAsync(token);
+        }
     }
 }

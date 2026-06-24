@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DriverReports.Application.DTOs.FinancialOperation;
+using DriverReports.Application.DTOs.FinancialOperations;
 using DriverReports.Application.Services.FinancialOperation;
 using DriverReports.Application.Services.FinancialSummary;
 using DriverReports.Domain.Entities;
@@ -54,6 +55,31 @@ namespace DriverReports.WebApi.Controllers
                 .CreateAsync(operationDto, userId, token);
 
             return Ok(id);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(
+    Guid id,
+    CancellationToken token)
+        {
+            await _financialOperationService.DeleteAsync(
+                id,
+                token);
+
+            return NoContent();
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Update(
+    Guid id,
+    UpdateFinancialOperationRequest request,
+    CancellationToken token)
+        {
+            await _financialOperationService.UpdateAsync(
+                id,
+                new UpdateFinancialOperationDto(request.UserId, request.Date, request.Amount, request.Comment), token);
+
+            return NoContent();
         }
 
         /// <summary>

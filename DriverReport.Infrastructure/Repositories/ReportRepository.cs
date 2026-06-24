@@ -20,11 +20,6 @@ namespace DriverReport.Infrastructure.Repositories
             return report.Id;
         }
 
-        public async Task DeleteAsync(Guid id)
-        {
-            await _appDbContext.Reports.Where(report => report.DriverId == id).ExecuteDeleteAsync();
-        }
-
         public async Task<IEnumerable<Report>> GetAllAsync(CancellationToken token)
         {
             //return await _appDbContext.Reports.AsNoTracking().ToListAsync();
