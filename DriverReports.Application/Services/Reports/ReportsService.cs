@@ -2,6 +2,7 @@
 using DriverReports.Application.DTOs.Reports;
 using DriverReports.Application.Interfaces;
 using DriverReports.Domain.Entities;
+using System.Text.Json;
 
 namespace DriverReports.Application.Services.Reports
 {
@@ -45,7 +46,21 @@ namespace DriverReports.Application.Services.Reports
                    request.ImagePaths
                );
 
-            await _unitOfWork.SaveChangesAsync(token);
+            Console.WriteLine($"ReportDate = {report.ReportDate}, Kind = {report.ReportDate.Kind}");
+            Console.WriteLine($"CreatedDate = {report.CreatedDate}, Kind = {report.CreatedDate.Kind}");
+            Console.WriteLine($"UpdatedDate = {report.UpdatedDate}, Kind = {report.UpdatedDate.Kind}");
+            Console.WriteLine(JsonSerializer.Serialize(new
+            {
+                ReportDate = report.ReportDate.Kind,
+                CreatedDate = report.CreatedDate.Kind,
+                UpdatedDate = report.UpdatedDate.Kind
+            }));
+    //        throw new Exception(
+    //$"ReportDate={report.ReportDate.Kind}; " +
+    //$"CreatedDate={report.CreatedDate.Kind}; " +
+    //$"UpdatedDate={report.UpdatedDate.Kind}");
+
+             await _unitOfWork.SaveChangesAsync(token);
         }
 
         public async Task DeleteAsync(
@@ -83,7 +98,7 @@ namespace DriverReports.Application.Services.Reports
                 reportDriverId = driver.Id;
                 reportDriverName = driver.Name;
             }
-
+            
             var (report, error) = Report.Create(
                 reportDriverId,
                 reportDriverName,

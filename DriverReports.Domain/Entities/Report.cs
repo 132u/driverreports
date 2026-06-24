@@ -50,9 +50,9 @@ public class Report
         Id = Guid.NewGuid();
         DriverId = driverId;
         DriverName = driverName;
-        CreatedDate = DateTime.Now.ToUniversalTime();
-        UpdatedDate = DateTime.Now.ToUniversalTime();
-        ReportDate = reportDate.ToUniversalTime();
+        CreatedDate = DateTime.UtcNow;
+        UpdatedDate = DateTime.UtcNow;
+        ReportDate = DateTime.SpecifyKind(reportDate.Date, DateTimeKind.Utc); ;
         Price = price;
         Description = description;
         PaymentType = paymentType;
@@ -73,8 +73,10 @@ public class Report
         if (price < 0) throw new InvalidOperationException("Цена не может быть отрицательной");
         if (reportDate> DateTime.Now) throw new InvalidOperationException("Дата не может быть в будущем");
         
-        ReportDate = reportDate.ToUniversalTime();
-        UpdatedDate = DateTime.Now.ToUniversalTime();
+        ReportDate = DateTime.SpecifyKind(
+    reportDate.Date,
+    DateTimeKind.Utc);
+        UpdatedDate = DateTime.UtcNow;
         Price = price;
         Description = description;
         PaymentType = paymentType;
