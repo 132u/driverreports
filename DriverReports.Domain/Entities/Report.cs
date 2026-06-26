@@ -78,7 +78,7 @@ public class Report
         List<string> imagePath)
     {
         if (price < 0) throw new InvalidOperationException("Цена не может быть отрицательной");
-        if (reportDate> DateTime.Now) throw new InvalidOperationException("Дата не может быть в будущем");
+        if (reportDate > DateTime.Now) throw new InvalidOperationException("Дата не может быть в будущем");
         
         ReportDate = DateTime.SpecifyKind(
     reportDate.Date,

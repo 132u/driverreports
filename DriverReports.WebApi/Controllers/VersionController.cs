@@ -11,9 +11,9 @@ public class VersionController : ControllerBase
     {
         return Ok(new
         {
-            version = "2.0.1",
+            version = "3.0.0",
             buildDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
-            commit = "gitignore fixed"
+            commit = "logging added"
         });
     }
 }

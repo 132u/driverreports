@@ -1,4 +1,5 @@
-﻿using DriverReports.Application.DTOs.FinancialSummary;
+﻿using Azure.Core;
+using DriverReports.Application.DTOs.FinancialSummary;
 using DriverReports.Application.DTOs.ReportsSummary;
 using DriverReports.Application.Interfaces;
 using DriverReports.Application.Services.Reports;
@@ -38,6 +39,7 @@ namespace DriverReports.Application.Services.FinancialSummary
             int month,
             CancellationToken token)
         {
+            _logger.LogInformation($"GetSummaryAsync driverId ={driverId} {month} {year}.");
             var reports =
                 await _reportRepository
                     .GetByUserIdAsync(driverId, token);
@@ -126,6 +128,7 @@ namespace DriverReports.Application.Services.FinancialSummary
         int year,
         CancellationToken token)
         {
+            _logger.LogInformation($"GetAllDriversMonthlySummaryAsync Получить итоговые финансовые отчеты всех водителей за год = {year}.");
             // ---------------------------------
             // Reports
             // ---------------------------------
@@ -292,6 +295,7 @@ namespace DriverReports.Application.Services.FinancialSummary
         /// </summary>
         public async Task<DriverDailySummaryDto> GetDriverMonthlyDetailsAsync(Guid driverId, int year, int month, CancellationToken token)
         {
+            _logger.LogInformation($"GetDriverMonthlyDetailsAsync детальную финансовую информацию водителя за месяц driverId = {driverId} {month} {year}.");
             var reports = await _reportRepository.GetByUserIdAsync(driverId, token);
             var monthReports = reports.Where(r => r.ReportDate.Year == year && r.ReportDate.Month == month).ToList();
             var operations = await _financialRepository.GetByUserIdAsync(driverId, token);
@@ -353,6 +357,7 @@ namespace DriverReports.Application.Services.FinancialSummary
         /// Одна строка = один месяц.
         public async Task<List<DriverMonthlySummaryDto>> GetDriverMonthlySummaryAsync(Guid driverId, CancellationToken token)
         {
+            _logger.LogInformation($"GetDriverMonthlySummaryAsync Получить итоговые финансовые отчеты водителя по месяцам driverId = {driverId}.");
             // ---------------------------------
             // Reports
             // ---------------------------------

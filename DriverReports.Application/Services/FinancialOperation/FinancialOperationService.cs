@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using DriverReports.Application.DTOs.FinancialOperation;
 using DriverReports.Application.DTOs.FinancialOperations;
 using DriverReports.Application.Interfaces;
+using DriverReports.Domain.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace DriverReports.Application.Services.FinancialOperation
@@ -29,6 +31,9 @@ namespace DriverReports.Application.Services.FinancialOperation
             Guid userId,
             CancellationToken cancellationToken)
         {
+            _logger.LogInformation(
+                $"Financial Operation created. User Id={userId}");
+
             var (financialOperation, error) = Domain.Entities.FinancialOperation.Create(
                 userId,
                 dto.Amount,
@@ -48,6 +53,7 @@ namespace DriverReports.Application.Services.FinancialOperation
 
         public async Task<IEnumerable<FinancialOperationDto>> GetAllAsync(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Получить все финансовые операции");
             var operations = await _financialOpertationRepository.GetAllAsync(cancellationToken);
 
             return _mapper.Map<IEnumerable<FinancialOperationDto>>(operations);
@@ -55,12 +61,14 @@ namespace DriverReports.Application.Services.FinancialOperation
 
         public async Task<IEnumerable<FinancialOperationDto>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Получить все финансовые операции по UserId = {userId}");
             var operations = await _financialOpertationRepository.GetByUserIdAsync(userId, cancellationToken);
             return _mapper.Map<IEnumerable<FinancialOperationDto>>(operations);
         }
 
         public async Task<IEnumerable<FinancialOperationDto>> GetMothlyByUserIdAsync(Guid userId, int year, int month, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Получить все финансовые операции за {month} {year} по UserId = {userId}");
             var reports = await _financialOpertationRepository.GetByUserIdAsync(userId, cancellationToken);
             var rows = reports.Where(r => r.Date.Year == year && r.Date.Month == month);
             var t =  _mapper.Map<IEnumerable<FinancialOperationDto>>(rows);

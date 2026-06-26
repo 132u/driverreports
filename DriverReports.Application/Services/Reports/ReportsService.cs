@@ -3,7 +3,6 @@ using DriverReports.Application.DTOs.Reports;
 using DriverReports.Application.Interfaces;
 using DriverReports.Domain.Entities;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace DriverReports.Application.Services.Reports
 {
@@ -34,8 +33,7 @@ namespace DriverReports.Application.Services.Reports
             CancellationToken token)
         {
             _logger.LogInformation(
-                "Report updated. ReportId={ReportId}",
-                id);
+                $"Report updated. ReportId={id}");
             var report = await _reportRepository.GetByIdAsync(id, token);
 
             if (report == null)
@@ -87,7 +85,7 @@ namespace DriverReports.Application.Services.Reports
             CancellationToken token)
         {
             _logger.LogInformation(
-                "Report created. DriverId={DriverId}, Date={Date}, Price={Price}",
+                $"Report created. DriverId={request.DriverId}, Date={request.ReportDate}, Price={request.Price}",
                 request.DriverId,
                 request.ReportDate,
                 request.Price);

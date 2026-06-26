@@ -26,6 +26,7 @@ public class AuthService : IAuthService
 
     public async Task<string?> Login(LoginRequestDto request, CancellationToken token)
     {
+        _logger.LogInformation($"Login {request.Email}.");
         var user = await _userRepository.GetByEmailAsync(request.Email, token);
         if (user == null)
             return null;
@@ -40,6 +41,7 @@ public class AuthService : IAuthService
 
     public async Task<string> Register(RegisterRequest request, CancellationToken token)
     {
+        _logger.LogInformation($"Registration {request.Email}, {request.Name}.");
         var existing = await _userRepository.GetByEmailAsync(request.Email, token);
         if (existing != null)
             throw new Exception("User already exists");
