@@ -1,21 +1,26 @@
 ﻿using AutoMapper;
 using DriverReports.Application.DTOs.Invoices;
 using DriverReports.Application.Interfaces;
+using DriverReports.Application.Services.Reports;
+using Microsoft.Extensions.Logging;
 
 namespace DriverReports.Application.Services.Invoice
 {
     public class InvoiceService : IInvoiceService
     {
+        private readonly ILogger<InvoiceService> _logger;
         private readonly IReportRepository _reportRepository;
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public InvoiceService(
+            ILogger<InvoiceService> logger,
             IInvoiceRepository invoiceRepository,
             IReportRepository reportRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
+            _logger = logger;
             _invoiceRepository = invoiceRepository;
             _reportRepository = reportRepository;
             _unitOfWork = unitOfWork;

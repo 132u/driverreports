@@ -2,20 +2,23 @@
 using DriverReports.Application.DTOs.FinancialOperation;
 using DriverReports.Application.DTOs.FinancialOperations;
 using DriverReports.Application.Interfaces;
-using DriverReports.Domain.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace DriverReports.Application.Services.FinancialOperation
 {
     public class FinancialOperationsService : IFinancialOperationService
     {
+        private readonly ILogger<FinancialOperationsService> _logger;
         private readonly IFinancialOperationRepository _financialOpertationRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public FinancialOperationsService(
+            ILogger<FinancialOperationsService> logger,
             IFinancialOperationRepository financialOpertationRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
+            _logger = logger;
             _financialOpertationRepository = financialOpertationRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -64,9 +67,12 @@ namespace DriverReports.Application.Services.FinancialOperation
             return _mapper.Map<IEnumerable<FinancialOperationDto>>(rows);
         }
         public async Task DeleteAsync(
-    Guid id,
-    CancellationToken token)
+            Guid id,
+            CancellationToken token)
         {
+            _logger.LogWarning(
+               "Financial Operation deleted. Id={id}",
+               id);
             await _financialOpertationRepository
                 .DeleteAsync(id, token);
 
@@ -74,10 +80,12 @@ namespace DriverReports.Application.Services.FinancialOperation
         }
 
         public async Task UpdateAsync(
-    Guid id,
-    UpdateFinancialOperationDto request,
-    CancellationToken token)
+            Guid id,
+            UpdateFinancialOperationDto request,
+            CancellationToken token)
         {
+            _logger.LogInformation(
+                $"Financial Operation updated. Id={id}");
             var operation = await _financialOpertationRepository
                 .GetByIdAsync(id, token);
 

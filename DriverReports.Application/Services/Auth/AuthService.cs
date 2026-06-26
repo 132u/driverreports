@@ -1,16 +1,24 @@
 ﻿using DriverReports.Application.DTOs.Auth;
 using DriverReports.Application.Interfaces;
 using DriverReports.Application.Services.Auth;
+using DriverReports.Application.Services.Reports;
 using DriverReports.Domain.Entities;
+using Microsoft.Extensions.Logging;
 
 public class AuthService : IAuthService
 {
+    private readonly ILogger<AuthService> _logger;
     private readonly ITokenService _tokenService;
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public AuthService(ITokenService tokenService, IUserRepository userRepository, IUnitOfWork unitOfWork)
+    public AuthService(
+        ILogger<AuthService> logger, 
+        ITokenService tokenService, 
+        IUserRepository userRepository, 
+        IUnitOfWork unitOfWork)
     {
+        _logger = logger;
         _tokenService = tokenService;
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;

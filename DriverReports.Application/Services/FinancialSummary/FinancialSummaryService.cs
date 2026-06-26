@@ -1,12 +1,15 @@
 ﻿using DriverReports.Application.DTOs.FinancialSummary;
 using DriverReports.Application.DTOs.ReportsSummary;
 using DriverReports.Application.Interfaces;
+using DriverReports.Application.Services.Reports;
 using DriverReports.Domain.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace DriverReports.Application.Services.FinancialSummary
 {
     public class SummaryService : ISummaryService
     {
+        private readonly ILogger<SummaryService> _logger;
         private readonly IReportRepository _reportRepository;
         private readonly IFinancialOperationRepository _financialRepository;
         private readonly IUserRepository _userRepository;
@@ -14,12 +17,14 @@ namespace DriverReports.Application.Services.FinancialSummary
         private readonly FinancialCalculator _calculator;
             
         public SummaryService(
+            ILogger<SummaryService> logger,
             IReportRepository reportRepository,
             IUserRepository userRepository,
             IFinancialOperationRepository financialRepository,
             IInvoiceRepository invoiceRepository,
             FinancialCalculator calculator)
         {
+            _logger = logger;
             _reportRepository = reportRepository;
             _userRepository = userRepository;
             _invoiceRepository = invoiceRepository;

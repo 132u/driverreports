@@ -2,22 +2,26 @@
 using DriverReports.Application.DTOs.Reports;
 using DriverReports.Application.Interfaces;
 using DriverReports.Domain.Entities;
+using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
 namespace DriverReports.Application.Services.Reports
 {
     public class ReportsService : IReportsService
     {
+        private readonly ILogger<ReportsService> _logger;
         private readonly IReportRepository _reportRepository;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public ReportsService(
+            ILogger<ReportsService> logger,
             IUserRepository userRepository,
             IReportRepository reportRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
+            _logger = logger;
             _userRepository = userRepository;
             _reportRepository = reportRepository;
             _unitOfWork = unitOfWork;
@@ -29,6 +33,9 @@ namespace DriverReports.Application.Services.Reports
             Guid id,
             CancellationToken token)
         {
+            _logger.LogInformation(
+                "Report updated. ReportId={ReportId}",
+                id);
             var report = await _reportRepository.GetByIdAsync(id, token);
 
             if (report == null)
@@ -68,6 +75,9 @@ namespace DriverReports.Application.Services.Reports
             Guid id,
             CancellationToken token)
         {
+            _logger.LogWarning(
+                "Report deleted. ReportId={ReportId}",
+                id);
             await _reportRepository.DeleteAsync(id, token);
         }
 
@@ -76,6 +86,11 @@ namespace DriverReports.Application.Services.Reports
             Guid userId,
             CancellationToken token)
         {
+            _logger.LogInformation(
+                "Report created. DriverId={DriverId}, Date={Date}, Price={Price}",
+                request.DriverId,
+                request.ReportDate,
+                request.Price);
             var currentUser = await _userRepository.GetByIdAsync(userId, token);
 
             if (currentUser == null)
