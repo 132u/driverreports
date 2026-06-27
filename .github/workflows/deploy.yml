@@ -28,7 +28,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "publish/*"
-          target: "/var/www/maniport-api"
+          target: "/var/www/maniport-api/э"
 
       - name: Restart service
         uses: appleboy/ssh-action@v1.0.3
