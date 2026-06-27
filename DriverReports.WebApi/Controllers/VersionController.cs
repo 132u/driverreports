@@ -11,9 +11,9 @@ public class VersionController : ControllerBase
     {
         return Ok(new
         {
-            version = "3.0.0",
+            version = "3.1.0",
             buildDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
-            commit = "logging added"
+            commit = "https added"
         });
     }
 }

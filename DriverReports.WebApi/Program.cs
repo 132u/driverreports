@@ -17,6 +17,10 @@ using Serilog;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
+    .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
+    .Enrich.WithThreadId()
+    .Enrich.WithProperty("Application", "DriverReports.Api")
     .WriteTo.Console()
     .WriteTo.Seq("http://localhost:5341")
     .CreateLogger();
@@ -115,3 +119,18 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+try
+{
+    Log.Information("Starting application");
+
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
