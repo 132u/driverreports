@@ -13,7 +13,7 @@ public class VersionController : ControllerBase
         {
             version = "3.1.0",
             buildDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
-            commit = "https added"
+            commit = "auto deploy checked"
         });
     }
 }
