@@ -1,4 +1,5 @@
-﻿using DriverReports.Application.DTOs.Auth;
+﻿using DriverReports.Application.Validators;
+using DriverReports.Application.DTOs.Auth;
 using DriverReports.Application.Interfaces;
 using DriverReports.Application.Services.Auth;
 using DriverReports.Application.Services.Reports;
@@ -42,6 +43,14 @@ public class AuthService : IAuthService
     public async Task<string> Register(RegisterRequest request, CancellationToken token)
     {
         _logger.LogInformation($"Registration {request.Email}, {request.Name}.");
+        if (!EmailValidator.IsRussianEmail(request.Email))
+        {
+            _logger.LogWarning(
+              "Registration rejected. Public email domain used: {Email}",
+              request.Email);
+
+            throw new ArgumentException($"Регистрация с иностранных почтовых сервисов запрещена {request.Email}.");
+        }
         var existing = await _userRepository.GetByEmailAsync(request.Email, token);
         if (existing != null)
             throw new Exception("User already exists");

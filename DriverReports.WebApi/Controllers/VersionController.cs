@@ -11,9 +11,9 @@ public class VersionController : ControllerBase
     {
         return Ok(new
         {
-            version = "3.1.0",
+            version = "4.0.0",
             buildDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
-            commit = "auto deploy checked"
+            commit = "added email validator"
         });
     }
 }
